@@ -1,4 +1,83 @@
 ---
-title: "Index"
-output: html_notebook
+title: "Visualización interactiva de bases de datos complejas mediante la plataforma Shiny"
+output:
+  html_document:
+    df_print: paged
 ---
+
+# Informacion general
+La visualización de datos forma parte esencial de la comunicación en la ciencia. Con los avances tecnológicos en la recolección y disponibilidad de la información, las bases de datos son cada vez más complejas en cuanto a su estructura. Las herramientas tradicionales de visualización de datos estática han sido efectivas para la comunicación de resultados en la ciencia, pero presentan algunas limitaciones al presentar  análisis de bases de datos con estructuras jerárquicas espacio-temporales. Herramientas que permiten la interacción con el usuario son cada vez más comunes para ser usadas para la exploración y análisis de datos. El software estadístico R ha sido adoptado por analistas de datos e investigadores en diferentes áreas del conocimiento incluyendo, salud pública y epidemiología. En este curso se discutirán algunos conceptos en estrategias para el desarrollo de aplicaciones web que pueden ser usadas para explorar y presentar resultados con bases de datos complejas. Por medio de laboratorios prácticos, los instructores guían a los participantes para desarrollar sus propias aplicaciones y las puedan desplegar en servidores web con el objetivo de comunicar los resultados de análisis de la información.
+
+# Instructores:
+
+**Jose Pablo Gomez-Vazquez**, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.
+http://jpablo91.github.io/
+
+
+**Alejandro Zaldivar Gomez**
+[Breve bio]
+
+
+
+
+# Objetivos:
+Entender conceptos básicos de la organización de proyectos colaborativos con github y Rstudio
+Familiarizarse con el desarrollo de plataformas para visualización y análisis de datos interactivas.
+
+
+
+# Audiencia y materiales
+## Audiencia:
+Los participantes deberán tener un entendimiento básico de la sintaxis de R y estadística. Se ofrecerá material pre-curso y una sesión para aclarar dudas de instalación y del material pre-curso.
+
+## Herramientas a utilizar:
+Computadora personal
+Rstudio
+Git
+Cuenta de github (https://github.com/)
+Cuenta de shiny
+
+
+
+# Temario:
+
+# Día 0: Sesión de instalación de R studio, github y material pre-curso (opcional).
+Tiempo: 2 horas.
+
+#Dia 1: Como construir una Shiny app.
+  
+  - Introducción (15 minutos)
+  - Arquitectura y estructura de la app (30 minutos)
+  - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos)
+  - Inputs, outputs y server (30 minutos)
+  - Ejercicio 2: (90 minutos)
+  - Cargar una base de datos
+  - Agregar y modificar los input$
+  - Agregar y modificar los output$
+  - Sin código: Agreguen y modifiquen 3 inputs y 3 output (tabla, mapa y grafica)
+  - Checkpoint - 
+
+Dia 2: Configuración de tu entorno de desarrollo
+Recapitulación (15 minutos)
+Configurar la interfaz del usuario (45 minutos)
+Ejercicio 3: Iintroduccion a shiny dashboard (45 minutos)
+Reactividad basica (30 minutos)
+Ejercicio 4: Reactividad
+Botones de acción
+Cajas de mensajes
+Checkpoint - 
+
+Dia 3: Gráficos avanzados y publicación de shiny app
+Recapitulación (15 minutos)
+Graficos avanzados DT, plotly y visNetwork, mapbox (30 minutos)
+Ejercicio 5: Agregar graficos y mapas interactivos (45 minutos)
+Publicación en github y servidores de google drive (30 minutos)
+Ejercicio 6: Publicar el shiny app y conectar con google drive (45 minutos) 
+Checkpoint - 
+Tarea boceto -
+
+Dia 4: Sesión de trabajo para proyectos (opcional)
+Presenten su borrador de aplicación
+
+Dìa 5: Presentación de trabajos
+
