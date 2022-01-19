@@ -11,6 +11,9 @@ output:
 
 La visualización de datos forma parte esencial de la comunicación en la ciencia. Con los avances tecnológicos en la recolección y disponibilidad de la información, las bases de datos son cada vez más complejas en cuanto a su estructura. Las herramientas tradicionales de visualización de datos estática han sido efectivas para la comunicación de resultados en la ciencia, pero presentan algunas limitaciones al presentar  análisis de bases de datos con estructuras jerárquicas espacio-temporales. Herramientas que permiten la interacción con el usuario son cada vez más comunes para ser usadas para la exploración y análisis de datos. El software estadístico R ha sido adoptado por analistas de datos e investigadores en diferentes áreas del conocimiento incluyendo, salud pública y epidemiología. En este curso se discutirán algunos conceptos en estrategias para el desarrollo de aplicaciones web que pueden ser usadas para explorar y presentar resultados con bases de datos complejas. Por medio de laboratorios prácticos, los instructores guían a los participantes para desarrollar sus propias aplicaciones y las puedan desplegar en servidores web con el objetivo de comunicar los resultados de análisis de la información.
 
+------------
+
+
 # Instructores:
 
 **Jose Pablo Gomez-Vazquez**, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.
@@ -23,9 +26,15 @@ http://jpablo91.github.io/
 
 
 
+------------
+
+
 # Objetivos:
 Entender conceptos básicos de la organización de proyectos colaborativos con github y Rstudio
 Familiarizarse con el desarrollo de plataformas para visualización y análisis de datos interactivas.
+
+
+------------
 
 
 
@@ -39,6 +48,9 @@ Rstudio
 Git
 Cuenta de github (https://github.com/)
 Cuenta de shiny
+
+
+------------
 
 
 
