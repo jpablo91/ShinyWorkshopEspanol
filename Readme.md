@@ -1,0 +1,1 @@
+Este es un repositorio para el website del curso: [**Visualización interactiva de bases de datos complejas mediante la plataforma Shiny**](https://jpablo91.github.io/ShinyWorkshopEspanol/)

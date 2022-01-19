@@ -1,0 +1,33 @@
+name: "CADMS"  
+author: "Jose Pablo Gomez-Vazquez"  
+output_dir: "."  
+output:  
+  html_document:  
+    self_contained: no  
+    theme: flatly  
+navbar:
+  title: CADMS
+  left:
+  - text: Home
+    href: index.html
+  - text: Pre Workshop 
+    menu:
+    - text: Intro to R
+      href: Intro_to_R.html
+    - text: Intro to Spatial data
+      href: Spatial_intro.html
+  
+  - text: Contact
+    menu:
+    - icon: fa-users
+      text: Instructors
+      href: Instructors.html
+    - icon: fa-server
+      text: CADMS Website
+      href: https://cadms.vetmed.ucdavis.edu
+    - icon: fa-envelope
+      text: Email
+      href: mailto:jpgo@ucdavis.edu
+      
+      
+#© 2019 GitHub, Inc.
