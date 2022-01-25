@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Visualización interactiva de bases de datos complejas mediante la plataforma Shiny"
 output:
   html_document:
     df_print: paged
@@ -60,7 +60,7 @@ Cuenta de shiny
    - **Dia 1:** Como construir una Shiny app.
      - Introducción (15 minutos)
      - Arquitectura y estructura de la app (30 minutos)
-     - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos)
+     - [Ejercicio 1:](Ejercicios/Lab_I.html) Abrir un archivo de Shiny app en R studio (15 minutos)
      - Inputs, outputs y server (30 minutos)
      - Ejercicio 2: (90 minutos)
      - Cargar una base de datos
