@@ -1,0 +1,23 @@
+---
+title: "Exploratory"
+author: "Pablo Gomez"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = F, message = F)
+library(dplyr); library(ggplot2); library(ggpubr);library(Pabloverse)
+```
+
+
+```{r}
+readxl::read_xlsx('../Datos/vacunacion.xlsx')
+readxl::read_xlsx('../Datos/Vigilancia.xlsx')
+read.csv('../Datos/CAPTURA_MHEMATOFAGO.csv')
+```
+
