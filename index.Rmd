@@ -16,7 +16,7 @@ output:
 
 # Instructores:
 
-**Jose Pablo Gomez-Vazquez**, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.
+**Jose Pablo Gomez-Vazquez**, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.  
  http://jpablo91.github.io/
 
 
@@ -43,11 +43,12 @@ output:
 Los participantes deberán tener un entendimiento básico de la sintaxis de R y estadística. Se ofrecerá material pre-curso y una sesión para aclarar dudas de instalación y del material pre-curso.
 
 ## Herramientas a utilizar:
-Computadora personal
-Rstudio
-Git
-Cuenta de github (https://github.com/)
-Cuenta de shiny
+  
+  - Computadora personal
+  - [Rstudio](https://www.rstudio.com/products/rstudio/)
+  - [Git](https://git-scm.com)
+  - [Cuenta de github](https://github.com/)
+  - [Cuenta de shiny](https://www.shinyapps.io)
 
 
  ------------
@@ -60,7 +61,7 @@ Cuenta de shiny
    - **Dia 1:** Como construir una Shiny app.
      - Introducción (15 minutos)
      - Arquitectura y estructura de la app (30 minutos)
-     - [Ejercicio 1:](Ejercicios/Lab_I.html) Abrir un archivo de Shiny app en R studio (15 minutos)
+     - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos)
      - Inputs, outputs y server (30 minutos)
      - Ejercicio 2: (90 minutos)
      - Cargar una base de datos
