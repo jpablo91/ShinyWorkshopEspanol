@@ -13,9 +13,9 @@ navbar:
   - text: Pre Workshop 
     menu:
     - text: Intro to R
-      href: Intro_to_R.html
+      href: Ejercicios/Intro_to_R.html
     - text: Intro to Spatial data
-      href: Spatial_intro.html
+      href: Ejercicios/Spatial_intro.html
   
   - text: Contact
     menu:
