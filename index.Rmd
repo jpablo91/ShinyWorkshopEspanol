@@ -51,7 +51,7 @@ Los participantes deberán tener un entendimiento básico de la sintaxis de R y 
 
  ------------
 
-
+# Horario 
 
 # Temario:
 
