@@ -1,0 +1,23 @@
+---
+title: "Requisitos"
+output:
+  html_document:
+    df_print: paged
+---
+
+# R y R studio
+
+Durante este workshop usaremos R y R studio. Para instalar R 
+
+- https://cloud.r-project.org
+- https://www.rstudio.com/products/rstudio/
+
+# Shiny
+
+- https://www.shinyapps.io
+
+
+<img src="img/0_Shiny01_LogIn.png" style="width:100%" align="center">
+
+
+<img src="img/0_Shiny02_authorize.png" style="width:100%" align="center">
