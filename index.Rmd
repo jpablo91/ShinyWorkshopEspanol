@@ -43,13 +43,20 @@ Los participantes deberán tener un entendimiento básico de la sintaxis de R y 
 ## Herramientas a utilizar:
   
   - Computadora personal
+  - [R](https://cloud.r-project.org)
   - [Rstudio](https://www.rstudio.com/products/rstudio/)
-  - [Git](https://git-scm.com)
-  - [Cuenta de github](https://github.com/)
   - [Cuenta de shiny](https://www.shinyapps.io)
 
 
  ------------
+ 
+# Material Pre-curso
+
+Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que tengas claro el contenido de los tutoriales para poder aprovechar mejor el tiempo durant el curso. Para cualquier duda en la instalacion del software, favor de contactar a los organizadores para poder ayudarte. Si tienes problemas para correr el codigo o preguntas sobre el material pre-curso, tendremos una sesion en el dia 0, la cual no es obligatoria, para aclarar dudas e ir sobre el material pre-curso. La idea de la sesion del dia 0 es que los participantes ya hayan leido previamente el material y solo aclarar dudas del material pre-curso. El material lo encontraras en el menu superior bajo la pestaña de *Pre workshop* o siguiendo los siguientes links:  
+  - [Requisitos](0a_Intro_req.html)  
+  - [Intro to R](0b_Intro_to_R.html)  
+  - [Intro to Spatial data](0c_Spatial_intro.html)
+
 
 # Horario 
 

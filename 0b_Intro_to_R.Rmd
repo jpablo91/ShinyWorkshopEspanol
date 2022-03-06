@@ -4,13 +4,13 @@ author: Jose Pablo Gomez-Vazquez
 output:
   html_document:
     toc: true
-    toc_float:
-      smooth_scroll: false
+    toc_float: true
+    number_sections: true
 ---
 
 ____________________________________________________________________
 
-# 1. Basic operations
+# Basic operations
 R is like a calculator, we can make mathematical operations, for example:
 
 ```{r}
@@ -44,7 +44,7 @@ x[3]
 x[3] * y[5]
 ```
 
-## 1.1 Functions in R
+## Functions in R
 
 R has a lot of base functions, but we can define new functions. When using R studio, the key *Tab* will help us to auto complete, this can help us a lot when we don't remember the exact name of the functions available.
 The best part of programming with R is that it has a very active community. Since its open source, anyone can create functions and compile them in a package (or library). we can download these packages and access new functions.  
@@ -78,7 +78,7 @@ Besides storing numbers in the objects in R, we can store text, matrices, tables
 
 ____________________________________________________________________
 
-# 2. Importing data into R
+# Importing data into R
 
 R can import data in different formats. The most common are excel files (*.csv*, *.xls* y *.xlsx*), text files *.txt* and spatial data *.shp*, which we will talk about more in detail later.  
 To read *.xls*, *.xlsx* and *.shp* files we will need to install some libraries. To install a new library you need to be connected to the internet and use the function `install.packages()` to install the library. Once it has been installed, you can load the library using the function `library()`.  
@@ -102,7 +102,7 @@ class(PRRS)
 
 ____________________________________________________________________
 
-# 3. Creating tables in R
+# Creating tables in R
 
 We can use the base R functions to create basic tables. For example, we can create a table that shows the number of positive by sex:  
 
@@ -117,7 +117,7 @@ When we have a table object we can ask for a specific column or row, where is re
 TBL[,2] # Get the second column
 ```
 
-## 3.1 Data manipulation with dplyr
+## Data manipulation with dplyr
 
 The library `dplyr` has several functions that can help to clean, create new variables, and modify our data in other ways.  
 
@@ -128,9 +128,12 @@ The library `dplyr` has several functions that can help to clean, create new var
 library(dplyr)
 ```
 
-`dplyr` introduces a new operator called pipes `%>%`, which can connect several functions to an object. This is an alternative to write several functions in a single "line of code" in a more organized way. For example:  
+`dplyr` introduces a new operator called *pipes* (`%>%`), which can connect several functions to an object. This is an alternative to write several functions in a single "line of code" in a more organized way. For example, if we want to execute a function `F1()` followed by another function `F2()` for the object `x`:  
 
-**F2(F1(x)) is the same as x %>% F1() %>% F2()**  
+`F2(F1(x))` is equivalent to `x %>% F1() %>% F2()`    
+
+As you can notice, to read the code `F2(F1(x))` we have to go from the inside to the outside to see the order of execution of the functions, but when we read `x %>% F1() %>% F2()` we read from left to right, which is the same way we normally would read any text.  
+
 
 **Suggestion:** we can use the keys *Ctrl* + *shift* + *m* to insert the `%>%` operator.  
 
@@ -167,7 +170,7 @@ PRRS %>%
 ```
 
 
-## 3.2 Joining datasets:
+## Joining datasets:
 
 
 ```{r}
@@ -205,7 +208,7 @@ mov %>%
 ____________________________________________________________________
   
   
-# 4. Plots with R
+# Plots with R
 
 The base plot in R includes several tools any kind of plots, some will be more straight forward than others. There are other libraries that has different functions (`ggplot2` is a very popular one), but you can achieve the same with base plots.
 
@@ -220,6 +223,17 @@ plot(Outgoing~Incoming, data = nodes)
 plot(nodes$Outgoing, nodes$Incoming)
 ```
 
+The same can be achieved with ggplot:
+
+```{r}
+# We load the library
+library(ggplot2)
+
+nodes %>% # first we start with the name of out data.frame
+  ggplot() + # then we call ggplot
+  geom_point(aes(Outgoing, Incoming)) # and we add the first layer, which is the points
+```
+
 
 ## Pie charts
 
@@ -229,47 +243,87 @@ To select a variables from a data.frame we use `$`. For example if we want to se
 ```{r}
 # First we create a table for the result by farm type
 TM <- table(PRRS$farm_type, PRRS$Result)
-# Then we use the second column which contains the positive onyl
+# Then we use the second column which contains the positive only
 pie(TM[,2])
 ```
 
+We can also store our plots objects in R and call them later, here we will start storing all our plots in a single list. One of the advantages of using lists is that you can organize your information in nested structures of different kinds of objects (i.e. dataframes, plots, other lists, etc...)  
+
+Again, we can replicate this with ggplot. We just need to transform a little bit the data:
+
+```{r}
+# we create an empty list
+Figs <- list()
+
+Figs[['Pie']] <- TM %>% # the data we are using
+  data.frame() %>% # We convert it to a data.frame
+  rename(group = Var1, Test = Var2) %>% # rename some of the variables
+  filter(Test == 1) %>% # select only the positive cases
+  ggplot() + # call ggplot
+  geom_bar(aes(x = '', y = Freq, fill = group), stat = 'identity') + # to make a pie chart we start it as a bar chart
+  coord_polar('y', start = 0) + # then we change the coordinates 
+  theme_void() # we can add themes to change its appearance
+
+# Now when we print our list we can obtain our plot
+Figs
+```
+
+It's always nice to be familiarized with different methods to achieve the same result, as you can see, sometimes you can achieve a nice result with fewer lines of code using base R, but ggplot its more intuitive to understand (or at least to me). From now on we will focus on ggplot2 only.
+
+
 ## Boxplots  
-Boxplots are great to show the distribution of a continuous variable. We can use it to show only one variable, or multiple variables.  
+
+Box plots are great to show the distribution of a continuous variable. We can use it to show only one variable, or multiple variables. It is important to be very descriptive when making plots, the idea of a figure is that can explain itselt. we will start to slowly introduce functions to do this and customize our figures.
+
 ```{r}
 # Only one variable
-boxplot(x = PRRS$Age)
+PRRS %>% 
+  ggplot() +
+  geom_boxplot(aes(y = Age)) +
+  labs(title = 'Distribution of Age') # we can add different labels such as the main title
 ```
+
 
 ```{r}
 # Same variable, but stratified by another
-boxplot(Age~Sex, data = PRRS, col = "lightgreen", 
-        main = "Boxplot of age stratified by sex")
+Figs[['boxplot']] <- PRRS %>% 
+  ggplot() +
+  geom_boxplot(aes(y = Age, x = Sex), fill = 'lightgreen') +
+  labs(title = "Boxplot of age stratified by sex")
+
+# now that we have our figure stored in the list we can print it 
+Figs$boxplot
 ```
 
-The plot function has a lot of arguments to customize your plots, you dont need to use them all, but the more you use, the more you can create more informative and visually appealing plots.  
+As you saw, when we print the list we are specifying which figure we want, since now we have 2 elements inside the list. We can just print `Figs` to the console, but that will show us the two figures in the list.  
 
 ## Bar plot
-For the next plot we will use more arguments, we will stratify the result by the sex of the animal.  
-We will also use the package `RColorBrewer` to get some nice looking color palettes
+
+For the next plot we will expand on the customization of the plots. First we will create a color palette, then we will transform our data to make a bar plot, then we will change the axis and add labels.
+
 ```{r }
-# Install the package if its not already installed.
-# install.packages("RColorBrewer")
-# Get 4 colors from the palette.
-colpal <- RColorBrewer::brewer.pal(n = 4, # Number of colors we want 
-                         name = "Paired") # Name of the palette
-# First we will get a table with the results stratified by sex
-TM <- table(PRRS$Result, PRRS$Sex)
-# The we use the par() function to increase the margins:
-par(mar = c(2, 6, 2, 2))
-# We use the barplot function to plot the results
-barplot(TM[, order(colSums(TM), decreasing = T)], # Order the results in decreasing 
-        beside = T, # Plot bars beside each other
-        horiz = T, # change to horizontally
-        las = 2, #set the names of x axis vertically
-        main = "Test results stratified by sex", # Main title 
-        col = colpal[1:2], # we want only the first two colors of our palette
-        legend = rownames(TM)) # include the row names as legend
+# Create a new color palette:
+colpal <- c("#BF0502", "#FFA7A6")
+
+# Make the plot
+Figs[['BarPlot']] <- PRRS %>%  # the data we are using
+  count(Result, Sex) %>%  # we will count the number of test results by sex
+  ggplot() + # call ggplot
+  geom_bar(aes(fill = factor(Result), x = Sex, y = n), # we want the fill color by test result, x axis by sex and y for number
+           position = 'dodge', stat = 'identity') + # we define the position as dodge to have a side by side groups
+  coord_flip() + # we change the coordinates
+  scale_fill_manual(values = colpal) + # we specify the color palette we want
+  labs(title = "Test results stratified by sex", fill = 'Test result') # we add labels
+
+# Print our barplot
+Figs$BarPlot
 ```
+
+  
+When choosing colors in R, we can use the names of the colors, or Hex code. A very usefull tool to help with this is the Addin from Rstudio *Colour Picker*. we can access this tool from the Addins menu as shown below:
+
+<img src="img/0b_ColPicker.GIF" style="width:50%" align="center">
+
 
 **Exercise:** Create a bar plot of the results stratified by the farm type:  
 
@@ -278,9 +332,9 @@ barplot(TM[, order(colSums(TM), decreasing = T)], # Order the results in decreas
 ```
 
 ```{r eval=FALSE, include=FALSE}
-# Primero creamos una tabla de los resultados por tipo de granja
+# First we create a table of the results by farm type
 TM <- table(PRRS$Result, PRRS$farm_type)
-# Despues usaremos la duncion par() para incrementar los margenes:
+# Next we use the function par() to increase the margins
 par(mar = c(2, 6, 2, 2))
 barplot(TM[, order(colSums(TM), decreasing = T)], beside = T, horiz = T, 
         las = 2, main = "Resultados por tipo de granja", col = colpal[1:2], 
@@ -292,28 +346,41 @@ barplot(TM[, order(colSums(TM), decreasing = T)], beside = T, horiz = T,
 
 To create a time series we will need to reformat the data a little bit so R can do what we want.  
 ```{r}
-# First we will format the date:
-mov$date <- as.Date(mov$date, "%m/%d/%y")
-# The we create a variable formatting the date as week of the year:
-mov$week <- format(mov$date, "%V")
+mov <- mov %>% 
+  mutate(date = as.Date(date, "%m/%d/%y"), # First we will format the date
+         week = format(date, "%V"),
+         week = lubridate::floor_date(date, 'week')) # The we create a variable formatting the date as week of the year
 ```
 
-This is basically a scatterplot joined by a line, so we use the function `plot()` with the argument `type = "l"` to join our points inn the scatterplot with a line.   
+
+
 ```{r}
-# Create a table with the number of movements by week
-mw <- mov %>%
-  group_by(week) %>% 
-  summarise(N = n())
-# Plot the data
-plot(N~week, # Our variables
-     data = mw, # our dataset
-     type = "l", # we want lines 
-     col = colpal[4], # color 4 from the palette
-     lwd = 2, # width of the line
-     main = "Movements per week", # Main title
-     xlab = "Week of the year", # label for x axis
-     ylab = "Number of movements") # label for y axis
+Figs[['TimeSeries']] <- mov %>% 
+  count(week) %>% 
+  ggplot() +
+  geom_line(aes(x = week, y = n), col = colpal[1]) +
+  labs(title = 'Movements per week', x = 'Date', y = "Number of movements")
+
+# show the time series plot
+Figs$TimeSeries
 ```
+
+## Arranging multiple plots
+
+One of the advantages of storing all the plots in a list, is that we can very easy make an arrangement of the figures using the package `ggpubr`,  
+
+```{r}
+# load the library (install if required with)
+# install.packages("ggpubr")
+library(ggpubr)
+
+ggarrange(plotlist = Figs, heights = c(2, 1))
+```
+
+
+There are multiple types of plots and selecting the most appropriate for what we want to achieve is very important. [The R graph gallery](https://www.r-graph-gallery.com) is a great resource to see examples for different type of plots. 
+
+------------------
 
 [Go Back](index.html)
 

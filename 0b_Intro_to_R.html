@@ -390,8 +390,8 @@ div.tocify {
 
 
 <hr />
-<div id="basic-operations" class="section level1">
-<h1>1. Basic operations</h1>
+<div id="basic-operations" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Basic operations</h1>
 <p>R is like a calculator, we can make mathematical operations, for example:</p>
 <pre class="r"><code>2 + 2</code></pre>
 <pre><code>## [1] 4</code></pre>
@@ -413,8 +413,8 @@ x[3]</code></pre>
 <pre class="r"><code># Now we multiply the 3rd value of the x sequence times the 5th value of the y sequence
 x[3] * y[5]</code></pre>
 <pre><code>## [1] 63</code></pre>
-<div id="functions-in-r" class="section level2">
-<h2>1.1 Functions in R</h2>
+<div id="functions-in-r" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Functions in R</h2>
 <p>R has a lot of base functions, but we can define new functions. When using R studio, the key <em>Tab</em> will help us to auto complete, this can help us a lot when we don’t remember the exact name of the functions available. The best part of programming with R is that it has a very active community. Since its open source, anyone can create functions and compile them in a package (or library). we can download these packages and access new functions.<br />
 Functions in R require arguments, which we can see in the function documentation or if we press the key <em>Tab</em> when we are inside the function.</p>
 <pre class="r"><code># To get the sum of a vector of numbers inside an object we use sum()
@@ -435,8 +435,8 @@ F1(name = &quot;Pablo&quot;)</code></pre>
 <hr />
 </div>
 </div>
-<div id="importing-data-into-r" class="section level1">
-<h1>2. Importing data into R</h1>
+<div id="importing-data-into-r" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Importing data into R</h1>
 <p>R can import data in different formats. The most common are excel files (<em>.csv</em>, <em>.xls</em> y <em>.xlsx</em>), text files <em>.txt</em> and spatial data <em>.shp</em>, which we will talk about more in detail later.<br />
 To read <em>.xls</em>, <em>.xlsx</em> and <em>.shp</em> files we will need to install some libraries. To install a new library you need to be connected to the internet and use the function <code>install.packages()</code> to install the library. Once it has been installed, you can load the library using the function <code>library()</code>.</p>
 <p><strong>Suggestion:</strong> Sometimes when we want to use only one function from a library, we can just write the name of the library followed by the operator <code>::</code> and the name of the function, for example: <code>package::function()</code>. This way we won’t have to load the whole library.</p>
@@ -451,8 +451,8 @@ PRRS &lt;- readxl::read_xlsx(&quot;Datos/PRRS.xlsx&quot;)</code></pre>
 <pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
 <hr />
 </div>
-<div id="creating-tables-in-r" class="section level1">
-<h1>3. Creating tables in R</h1>
+<div id="creating-tables-in-r" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Creating tables in R</h1>
 <p>We can use the base R functions to create basic tables. For example, we can create a table that shows the number of positive by sex:</p>
 <pre class="r"><code>TBL &lt;- table(PRRS$Sex, PRRS$Result)
 TBL</code></pre>
@@ -464,15 +464,16 @@ TBL</code></pre>
 <pre class="r"><code>TBL[,2] # Get the second column</code></pre>
 <pre><code>##   H   M 
 ## 229 138</code></pre>
-<div id="data-manipulation-with-dplyr" class="section level2">
-<h2>3.1 Data manipulation with dplyr</h2>
+<div id="data-manipulation-with-dplyr" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Data manipulation with dplyr</h2>
 <p>The library <code>dplyr</code> has several functions that can help to clean, create new variables, and modify our data in other ways.</p>
 <pre class="r"><code># if we dont have installed the library we will need to install it using:
 # install.packages(&quot;dplyr&quot;)
 # we load the library:
 library(dplyr)</code></pre>
-<p><code>dplyr</code> introduces a new operator called pipes <code>%&gt;%</code>, which can connect several functions to an object. This is an alternative to write several functions in a single “line of code” in a more organized way. For example:</p>
-<p><strong>F2(F1(x)) is the same as x %&gt;% F1() %&gt;% F2()</strong></p>
+<p><code>dplyr</code> introduces a new operator called <em>pipes</em> (<code>%&gt;%</code>), which can connect several functions to an object. This is an alternative to write several functions in a single “line of code” in a more organized way. For example, if we want to execute a function <code>F1()</code> followed by another function <code>F2()</code> for the object <code>x</code>:</p>
+<p><code>F2(F1(x))</code> is equivalent to <code>x %&gt;% F1() %&gt;% F2()</code></p>
+<p>As you can notice, to read the code <code>F2(F1(x))</code> we have to go from the inside to the outside to see the order of execution of the functions, but when we read <code>x %&gt;% F1() %&gt;% F2()</code> we read from left to right, which is the same way we normally would read any text.</p>
 <p><strong>Suggestion:</strong> we can use the keys <em>Ctrl</em> + <em>shift</em> + <em>m</em> to insert the <code>%&gt;%</code> operator.</p>
 <p>We will use this to calculate the prevalence by county:</p>
 <pre class="r"><code>PRRS %&gt;% 
@@ -516,8 +517,8 @@ library(dplyr)</code></pre>
 ## 1 H           35.9           30    24.7
 ## 2 M           19.8           17    15.1</code></pre>
 </div>
-<div id="joining-datasets" class="section level2">
-<h2>3.2 Joining datasets:</h2>
+<div id="joining-datasets" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Joining datasets:</h2>
 <pre class="r"><code># Importing the farm dataseet
 nodes &lt;- read.csv(&quot;Datos/node_attrib.csv&quot;)
 # Importing the movement dataset
@@ -555,11 +556,11 @@ nodes &lt;- nodes %&gt;%
 <hr />
 </div>
 </div>
-<div id="plots-with-r" class="section level1">
-<h1>4. Plots with R</h1>
+<div id="plots-with-r" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Plots with R</h1>
 <p>The base plot in R includes several tools any kind of plots, some will be more straight forward than others. There are other libraries that has different functions (<code>ggplot2</code> is a very popular one), but you can achieve the same with base plots.</p>
-<div id="scatterplot." class="section level2">
-<h2>Scatterplot.</h2>
+<div id="scatterplot." class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Scatterplot.</h2>
 <p>This is one of the most popular kind of plots, it is useful to represent relationship between two continuous variables.<br />
 We can achieve the same result in different ways. The first one is better when we have our variables in the same dataset, and the second one when we have data from different objects. (the length of the two vectors has to be the same).</p>
 <pre class="r"><code># When variables are from the same dataset
@@ -568,76 +569,117 @@ plot(Outgoing~Incoming, data = nodes)</code></pre>
 <pre class="r"><code># When variables from different dataset
 plot(nodes$Outgoing, nodes$Incoming)</code></pre>
 <p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p>The same can be achieved with ggplot:</p>
+<pre class="r"><code># We load the library
+library(ggplot2)
+
+nodes %&gt;% # first we start with the name of out data.frame
+  ggplot() + # then we call ggplot
+  geom_point(aes(Outgoing, Incoming)) # and we add the first layer, which is the points</code></pre>
+<pre><code>## Warning: Removed 25 rows containing missing values (geom_point).</code></pre>
+<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div id="pie-charts" class="section level2">
-<h2>Pie charts</h2>
+<div id="pie-charts" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Pie charts</h2>
 <p>Pie charts are useful to show proportions, for example, next we will create a plot representing the proportion of positive animals for each type of farm.<br />
 To select a variables from a data.frame we use <code>$</code>. For example if we want to see the variable farm type from our PRRS dataset, we use <code>PRRS$farm_type</code>.</p>
 <pre class="r"><code># First we create a table for the result by farm type
 TM &lt;- table(PRRS$farm_type, PRRS$Result)
-# Then we use the second column which contains the positive onyl
+# Then we use the second column which contains the positive only
 pie(TM[,2])</code></pre>
-<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-</div>
-<div id="boxplots" class="section level2">
-<h2>Boxplots</h2>
-<p>Boxplots are great to show the distribution of a continuous variable. We can use it to show only one variable, or multiple variables.</p>
-<pre class="r"><code># Only one variable
-boxplot(x = PRRS$Age)</code></pre>
 <p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<pre class="r"><code># Same variable, but stratified by another
-boxplot(Age~Sex, data = PRRS, col = &quot;lightgreen&quot;, 
-        main = &quot;Boxplot of age stratified by sex&quot;)</code></pre>
+<p>We can also store our plots objects in R and call them later, here we will start storing all our plots in a single list. One of the advantages of using lists is that you can organize your information in nested structures of different kinds of objects (i.e. dataframes, plots, other lists, etc…)</p>
+<p>Again, we can replicate this with ggplot. We just need to transform a little bit the data:</p>
+<pre class="r"><code># we create an empty list
+Figs &lt;- list()
+
+Figs[[&#39;Pie&#39;]] &lt;- TM %&gt;% # the data we are using
+  data.frame() %&gt;% # We convert it to a data.frame
+  rename(group = Var1, Test = Var2) %&gt;% # rename some of the variables
+  filter(Test == 1) %&gt;% # select only the positive cases
+  ggplot() + # call ggplot
+  geom_bar(aes(x = &#39;&#39;, y = Freq, fill = group), stat = &#39;identity&#39;) + # to make a pie chart we start it as a bar chart
+  coord_polar(&#39;y&#39;, start = 0) + # then we change the coordinates 
+  theme_void() # we can add themes to change its appearance
+
+# Now when we print our list we can obtain our plot
+Figs</code></pre>
+<pre><code>## $Pie</code></pre>
 <p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<p>The plot function has a lot of arguments to customize your plots, you dont need to use them all, but the more you use, the more you can create more informative and visually appealing plots.</p>
+<p>It’s always nice to be familiarized with different methods to achieve the same result, as you can see, sometimes you can achieve a nice result with fewer lines of code using base R, but ggplot its more intuitive to understand (or at least to me). From now on we will focus on ggplot2 only.</p>
 </div>
-<div id="bar-plot" class="section level2">
-<h2>Bar plot</h2>
-<p>For the next plot we will use more arguments, we will stratify the result by the sex of the animal.<br />
-We will also use the package <code>RColorBrewer</code> to get some nice looking color palettes</p>
-<pre class="r"><code># Install the package if its not already installed.
-# install.packages(&quot;RColorBrewer&quot;)
-# Get 4 colors from the palette.
-colpal &lt;- RColorBrewer::brewer.pal(n = 4, # Number of colors we want 
-                         name = &quot;Paired&quot;) # Name of the palette
-# First we will get a table with the results stratified by sex
-TM &lt;- table(PRRS$Result, PRRS$Sex)
-# The we use the par() function to increase the margins:
-par(mar = c(2, 6, 2, 2))
-# We use the barplot function to plot the results
-barplot(TM[, order(colSums(TM), decreasing = T)], # Order the results in decreasing 
-        beside = T, # Plot bars beside each other
-        horiz = T, # change to horizontally
-        las = 2, #set the names of x axis vertically
-        main = &quot;Test results stratified by sex&quot;, # Main title 
-        col = colpal[1:2], # we want only the first two colors of our palette
-        legend = rownames(TM)) # include the row names as legend</code></pre>
+<div id="boxplots" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Boxplots</h2>
+<p>Box plots are great to show the distribution of a continuous variable. We can use it to show only one variable, or multiple variables. It is important to be very descriptive when making plots, the idea of a figure is that can explain itselt. we will start to slowly introduce functions to do this and customize our figures.</p>
+<pre class="r"><code># Only one variable
+PRRS %&gt;% 
+  ggplot() +
+  geom_boxplot(aes(y = Age)) +
+  labs(title = &#39;Distribution of Age&#39;) # we can add different labels such as the main title</code></pre>
 <p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code># Same variable, but stratified by another
+Figs[[&#39;boxplot&#39;]] &lt;- PRRS %&gt;% 
+  ggplot() +
+  geom_boxplot(aes(y = Age, x = Sex), fill = &#39;lightgreen&#39;) +
+  labs(title = &quot;Boxplot of age stratified by sex&quot;)
+
+# now that we have our figure stored in the list we can print it 
+Figs$boxplot</code></pre>
+<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>As you saw, when we print the list we are specifying which figure we want, since now we have 2 elements inside the list. We can just print <code>Figs</code> to the console, but that will show us the two figures in the list.</p>
+</div>
+<div id="bar-plot" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Bar plot</h2>
+<p>For the next plot we will expand on the customization of the plots. First we will create a color palette, then we will transform our data to make a bar plot, then we will change the axis and add labels.</p>
+<pre class="r"><code># Create a new color palette:
+colpal &lt;- c(&quot;#BF0502&quot;, &quot;#FFA7A6&quot;)
+
+# Make the plot
+Figs[[&#39;BarPlot&#39;]] &lt;- PRRS %&gt;%  # the data we are using
+  count(Result, Sex) %&gt;%  # we will count the number of test results by sex
+  ggplot() + # call ggplot
+  geom_bar(aes(fill = factor(Result), x = Sex, y = n), # we want the fill color by test result, x axis by sex and y for number
+           position = &#39;dodge&#39;, stat = &#39;identity&#39;) + # we define the position as dodge to have a side by side groups
+  coord_flip() + # we change the coordinates
+  scale_fill_manual(values = colpal) + # we specify the color palette we want
+  labs(title = &quot;Test results stratified by sex&quot;, fill = &#39;Test result&#39;) # we add labels
+
+# Print our barplot
+Figs$BarPlot</code></pre>
+<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>When choosing colors in R, we can use the names of the colors, or Hex code. A very usefull tool to help with this is the Addin from Rstudio <em>Colour Picker</em>. we can access this tool from the Addins menu as shown below:</p>
+<p><img src="img/0b_ColPicker.GIF" style="width:50%" align="center"></p>
 <p><strong>Exercise:</strong> Create a bar plot of the results stratified by the farm type:</p>
 <pre class="r"><code># Answer</code></pre>
 </div>
-<div id="time-series-plots." class="section level2">
-<h2>Time series plots.</h2>
+<div id="time-series-plots." class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Time series plots.</h2>
 <p>To create a time series we will need to reformat the data a little bit so R can do what we want.</p>
-<pre class="r"><code># First we will format the date:
-mov$date &lt;- as.Date(mov$date, &quot;%m/%d/%y&quot;)
-# The we create a variable formatting the date as week of the year:
-mov$week &lt;- format(mov$date, &quot;%V&quot;)</code></pre>
-<p>This is basically a scatterplot joined by a line, so we use the function <code>plot()</code> with the argument <code>type = "l"</code> to join our points inn the scatterplot with a line.</p>
-<pre class="r"><code># Create a table with the number of movements by week
-mw &lt;- mov %&gt;%
-  group_by(week) %&gt;% 
-  summarise(N = n())
-# Plot the data
-plot(N~week, # Our variables
-     data = mw, # our dataset
-     type = &quot;l&quot;, # we want lines 
-     col = colpal[4], # color 4 from the palette
-     lwd = 2, # width of the line
-     main = &quot;Movements per week&quot;, # Main title
-     xlab = &quot;Week of the year&quot;, # label for x axis
-     ylab = &quot;Number of movements&quot;) # label for y axis</code></pre>
-<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code>mov &lt;- mov %&gt;% 
+  mutate(date = as.Date(date, &quot;%m/%d/%y&quot;), # First we will format the date
+         week = format(date, &quot;%V&quot;),
+         week = lubridate::floor_date(date, &#39;week&#39;)) # The we create a variable formatting the date as week of the year</code></pre>
+<pre class="r"><code>Figs[[&#39;TimeSeries&#39;]] &lt;- mov %&gt;% 
+  count(week) %&gt;% 
+  ggplot() +
+  geom_line(aes(x = week, y = n), col = colpal[1]) +
+  labs(title = &#39;Movements per week&#39;, x = &#39;Date&#39;, y = &quot;Number of movements&quot;)
+
+# show the time series plot
+Figs$TimeSeries</code></pre>
+<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+</div>
+<div id="arranging-multiple-plots" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Arranging multiple plots</h2>
+<p>One of the advantages of storing all the plots in a list, is that we can very easy make an arrangement of the figures using the package <code>ggpubr</code>,</p>
+<pre class="r"><code># load the library (install if required with)
+# install.packages(&quot;ggpubr&quot;)
+library(ggpubr)
+
+ggarrange(plotlist = Figs, heights = c(2, 1))</code></pre>
+<p><img src="0b_Intro_to_R_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>There are multiple types of plots and selecting the most appropriate for what we want to achieve is very important. <a href="https://www.r-graph-gallery.com">The R graph gallery</a> is a great resource to see examples for different type of plots.</p>
+<hr />
 <p><a href="index.html">Go Back</a></p>
 </div>
 </div>
@@ -701,7 +743,7 @@ $(document).ready(function ()  {
       scrollTo: 0
     };
     options.showAndHide = true;
-    options.smoothScroll = false;
+    options.smoothScroll = true;
 
     // tocify
     var toc = $("#TOC").tocify(options).data("toc-tocify");

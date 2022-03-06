@@ -256,13 +256,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Ejercicios/Requirements.html">Requisitos</a>
+      <a href="0a_Intro_req.html">Requisitos</a>
     </li>
     <li>
-      <a href="Ejercicios/Intro_to_R.html">Intro to R</a>
+      <a href="0b_Intro_to_R.html">Intro to R</a>
     </li>
     <li>
-      <a href="Ejercicios/Spatial_intro.html">Intro to Spatial data</a>
+      <a href="0c_Spatial_intro.html">Intro to Spatial data</a>
     </li>
   </ul>
 </li>
@@ -315,19 +315,31 @@ $(document).ready(function () {
 
 <div id="r-y-r-studio" class="section level1">
 <h1>R y R studio</h1>
-<p>Durante este workshop usaremos R y R studio. Para instalar R</p>
+<p>Durante este workshop usaremos R y R studio:</p>
 <ul>
-<li><a href="https://cloud.r-project.org" class="uri">https://cloud.r-project.org</a></li>
-<li><a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a></li>
+<li><a href="https://cloud.r-project.org">Instalar R</a></li>
+<li><a href="https://www.rstudio.com/products/rstudio/">Instalar R studio</a></li>
 </ul>
 </div>
 <div id="shiny" class="section level1">
 <h1>Shiny</h1>
-<ul>
-<li><a href="https://www.shinyapps.io" class="uri">https://www.shinyapps.io</a></li>
-</ul>
-<p><img src="img/0_Shiny01_LogIn.png" style="width:100%" align="center"></p>
-<p><img src="img/0_Shiny02_authorize.png" style="width:100%" align="center"></p>
+<p>Shiny es la plataforma que usaremos para desarrollar nuestas aplicaciones interactivas. Shiny es una libreria de R, si aun no tienes shiny instalado, lo puedes hacer desde R como cualquier otra libreria corriendo el comando <code>install.package(shiny)</code>.<br />
+Shiny corre localmente usando R, pero una de las caracteristicas que hacen de shiny ideal para desarrollar herramientas, es que una vez desarrollada a aplicacion, la podemos montar la aplicacion en un servidor y acceder desde cualquier computadora, celular o tablet con coneccion a internet sin necesaidad de instalar R o R studio.</p>
+<p>Para montar la aplicacion en un servidor necesitaremos una cuenta de <a href="https://www.shinyapps.io">shinyapps</a> y autorizar R studio para montar aplicaciones en el servidor.</p>
+<!-- - https://www.shinyapps.io -->
+<div id="crear-una-cuenta-de-shiny" class="section level2">
+<h2>Crear una cuenta de shiny</h2>
+<p>Ve a la pagina principal de <a href="https://www.shinyapps.io">shinyapps</a> y sigue el link que dice <em>sign up</em>:</p>
+<p><img src="img/0_Shiny00_signup.png" style="width:60%" align="center"></p>
+<p>Puedes utilizar una cuenta de github o google para iniciar sesion</p>
+<p><img src="img/0_Shiny01_LogIn.png" style="width:60%" align="center"></p>
+<p>Una vez que crees tu cuenta y acceses, ve a tu dashoard y sigue las instrucciones para autorizar tu cuenta en R studio. Asegurate de que en el paso 2 presiones el boton de <em>Show secret</em>, que te mostrara el codigo completo para que lo copies.</p>
+<p><img src="img/0_Shiny02_authorize.png" style="width:60%" align="center"></p>
+<p>Para autorizar tu cuenta de shinyapps en R studio, pega el codigo en la consola de R studio, asegurate de tener instalado la libreria <code>rsconnect</code>.</p>
+<p>Para verificar que se haya autorizado correctamente podemos ir a <em>Preferencias</em> ya sea desde el menu superior de R studio o presionando <code>ctrl + ,</code> en windows o <code>cmd + ,</code> en Mac, y deberemos de ver nuestra cuenta autorizada en el menu de <em>Publishing</em></p>
+<p><img src="img/0_Shiny03_prefVer.png" style="width:60%" align="center"></p>
+<p>Si puedes ver tu cuenta, tu entorno esta listo para empezar a desarrollar tus aplicaciones!</p>
+</div>
 </div>
 
 

@@ -5,6 +5,7 @@ output:
   html_document:
     toc: true
     toc_float: true
+    number_sections: true
 ---
 # Introduction.  
 
@@ -32,7 +33,7 @@ We use raster data to represent continuous values in a field. Raster are just a 
 In this tutorial we will introduce to spatial data manipulation in R.  
 There are two main formats to manipulate spatial data in R:  
   - **SpatialDataFrame** from the `sp` package: This is was the first format introduced in R for spatial data manipulation, therefore, this package has a lot of dependencies (packages that uses this format to do other functions) i.e `raster`, `spdep`, `spstat`.  
-  - **Simple features** from the package `sf`: THis is a more recently developed package, this package was developed to be more intuitive and friendly with other packages such as `dplyr`. The problem with this package is that since its more recent, some packages doesn't support this format.  
+  - **Simple features** from the package `sf`: This is a more recently developed package, this package was developed to be more intuitive and friendly with other packages such as `dplyr`. The problem with this package is that since its more recent, some packages doesn't support this format.  
   
 Working with both formats has its advantages, for spatial data manipulation `sf` is more intuitive and powerful, but for spatial analysis `sp` is more robust.  
 
@@ -54,7 +55,7 @@ devtools::install_github("jpablo91/STNet")
 ________________________________________
   
   
-# 1. Loading the data
+# Loading the data
 
 ```{r message = F}
 # Loading the libraries
@@ -94,7 +95,7 @@ data.frame(Io) %>%
   head() # We use this function to see the first 6 only
 ```
 
-## 1.1 Converting from data.frame to sf
+## Converting from data.frame to sf
 
 First we obtain the prevalence per farm: 
 
@@ -119,10 +120,11 @@ Nodes <- SwinePrem %>%
            crs = st_crs(Io)) # The CRS we will use.
 ```
 
-## 1.2 Projecting the data.
+## Projecting the data.
 
 Our spatial objects are not projected, which means that are we are representing the data in a planar scale without considering the earth curvature, something only a flat earther will do. The impact of the projection in our data will be associated with the size of our study area. In smaller areas the projection wont have a big impact, but as our study are increases the projection will have a bigger impact when calculating distances.  
 We can use the function `st_transform()` to set a projection to our data.  
+
 ```{r}
 Iop <- Io %>%
   st_transform(st_crs("+init=EPSG:26975"))
@@ -143,7 +145,7 @@ Now that we have our data correctly projected, we can improve the visual aspect 
 ___________________________________________
   
   
-# 2. Data visualization
+# Data visualization
 
 ## Point data
 
@@ -178,7 +180,7 @@ legend("topright", # Position of the legend
        col = colpal)  # Colors for the points
 ```
 
-## 2.1 Choropleth Maps
+## Choropleth Maps
 
 We can aggregate the data at county level to create a choropleth map.  First we will join the farm information with the county using a spatial joint with the function `st_join()`. This function will create duplicates of our counties since we have multiple farms per county, so then we will sum all the cases and number of observations using `group_by()` and `summarise()`, and calculate the prevalence at county level (instead of farm level).    
 
@@ -198,11 +200,11 @@ ___________________________________________
   
   
 
-# 3. Other mapping libraries
+# Other mapping libraries
 
 There are other libraries that can be used to create maps in R, the base R functions for graphics can be very flexible, but require more knowledge about the functions in R. There ar other options such as `tmap` and `ggplot` that allow us to use more intuitive functions to create maps.  
   
-## 3.1 tmap
+## tmap
 
 [`tmap`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) has several options for mapping and with very similar syntax to the tidyverse packages (`dplyr`, `ggplot2`). We can create several maps and arrange them into a layout. For example, we can specify a predefined color palette for our map without the need of telling R how many colors we need.  
 
@@ -225,7 +227,8 @@ tm_shape(Iop) +  # base layer
             frame = F, # remove frame
             legend.hist.width = 3) # with of histogram
 ```
-### 3.1.1 Interactive maps
+
+### Interactive maps
 
 One of the nice things about tmap is that we can ver easy convert our static map into something interactive. We use the function `tmap_mode()` to switch between the interactive mode ('view') to the static mode ('plot'). Now we will create a choropleth map like the one we did before, but add it as an interactive map layer.  
 
@@ -236,7 +239,7 @@ tm_shape(Iop) +
   tm_layout(legend.outside = T, frame = F)
 ```
 
-## 3.2 ggplot2
+## ggplot2
 
 `ggplot2` is one of the most popular libraries for creating figures in R, we can add sf objects using the function `geom_sf()`  
 
