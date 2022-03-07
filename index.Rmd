@@ -56,6 +56,8 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Requisitos](0a_Intro_req.html)  
   - [Intro to R](0b_Intro_to_R.html)  
   - [Intro to Spatial data](0c_Spatial_intro.html)
+  
+  
 
 
 # Horario 
@@ -73,7 +75,7 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
      <!-- - Agregar y modificar los input$ -->
      <!-- - Agregar y modificar los output$ -->
      <!-- - Sin código: Agreguen y modifiquen 3 inputs y 3 output (tabla, mapa y grafica) -->
-     <!-- - Checkpoint -  -->
+     <!-- - Checkpoint -  --> 
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
      <!-- - Recapitulación (15 minutos) -->
      <!-- - Configurar la interfaz del usuario (45 minutos) -->
