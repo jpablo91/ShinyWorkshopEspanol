@@ -62,10 +62,12 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
 
 # Horario 
 
+Todas las sesiones seran de 3 a 6 pm  
+
 # Temario:
 
    - **Día 0 (14 de Marzo, 2022):** Sesión de instalación de R studio, github y material pre-curso (opcional). Tiempo: 2 horas.
-   - **Dia 1 (15 de Marzo! 2022):** Como construir una Shiny app.
+   - **Dia 1 (15 de Marzo 2022):** Como construir una Shiny app.
      <!-- - Introducción (15 minutos) -->
      <!-- - Arquitectura y estructura de la app (30 minutos) -->
      <!-- - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos) -->
