@@ -57,7 +57,17 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Intro to R](0b_Intro_to_R.html)  
   - [Intro to Spatial data](0c_Spatial_intro.html)
   
+## Paqueterias 
   
+  - shiny
+  - tidyverse
+  - lubridate
+  - ggplot2
+  - ggraph
+  - plotly
+  - ggpubr
+  - sf
+  - tidygraph
 
 
 # Horario 
@@ -72,6 +82,7 @@ Todas las sesiones seran de 3 a 6 pm
      <!-- - Arquitectura y estructura de la app (30 minutos) -->
      <!-- - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos) -->
      <!-- - Inputs, outputs y server (30 minutos) -->
+     <!-- - Introduccion a base de datos (10 min) -->
      <!-- - Ejercicio 2: (90 minutos) -->
      <!-- - Cargar una base de datos -->
      <!-- - Agregar y modificar los input$ -->
@@ -81,7 +92,7 @@ Todas las sesiones seran de 3 a 6 pm
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
      <!-- - Recapitulación (15 minutos) -->
      <!-- - Configurar la interfaz del usuario (45 minutos) -->
-     <!-- - Ejercicio 3: Iintroduccion a shiny dashboard (45 minutos) -->
+     <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->
      <!-- - Reactividad basica (30 minutos) -->
      <!-- - Ejercicio 4: Reactividad -->
      <!-- - Botones de acción -->
