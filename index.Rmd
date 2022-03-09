@@ -50,7 +50,11 @@ Los participantes deberán tener un entendimiento básico de la sintaxis de R y 
 
  ------------
  
+ 
+ 
 # Material Pre-curso
+
+[REGISTRO AL ZOOM](https://ucdavis.zoom.us/meeting/register/tJcucuqupj0tGdQBqdaaH__SWSc_FXVE5kc7)
 
 Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que tengas claro el contenido de los tutoriales para poder aprovechar mejor el tiempo durant el curso. Para cualquier duda en la instalacion del software, favor de contactar a los organizadores para poder ayudarte. Si tienes problemas para correr el codigo o preguntas sobre el material pre-curso, tendremos una sesion en el dia 0, la cual no es obligatoria, para aclarar dudas e ir sobre el material pre-curso. La idea de la sesion del dia 0 es que los participantes ya hayan leido previamente el material y solo aclarar dudas del material pre-curso. El material lo encontraras en el menu superior bajo la pestaña de *Pre workshop* o siguiendo los siguientes links:  
   - [Requisitos](0a_Intro_req.html)  
@@ -68,6 +72,12 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - ggpubr
   - sf
   - tidygraph
+  
+# Otros links:
+
+  - [Tags](https://shiny.rstudio.com/articles/tag-glossary.html)
+  - [plotly](https://plotly.com/r/)
+  - [ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
 
 
 # Horario 
@@ -81,7 +91,7 @@ Todas las sesiones seran de 3 a 6 pm
      <!-- - Introducción (15 minutos) -->
      <!-- - Arquitectura y estructura de la app (30 minutos) -->
      <!-- - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos) -->
-     <!-- - Inputs, outputs y server (30 minutos) -->
+     <!-- - Inputs, outputs y server (30 minutos) -->            
      <!-- - Introduccion a base de datos (10 min) -->
      <!-- - Ejercicio 2: (90 minutos) -->
      <!-- - Cargar una base de datos -->
