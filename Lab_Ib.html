@@ -348,10 +348,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Instructors.html">
+      <a href="Instructores.html">
         <span class="fa fa-users"></span>
          
-        Instructors
+        Instructores
       </a>
     </li>
     <li>
@@ -389,7 +389,16 @@ div.tocify {
 
 <div id="introduccion" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduccion</h1>
-<p>En este laboratorio vamos a modificar la plantilla inicial de shiny para poder cargar nuestros datos y hacer figuras reactivas.</p>
+<p>En este laboratorio vamos a modificar la plantilla inicial de shiny para cargar nuestros datos y hacer figuras reactivas.</p>
+<p>Objetivos:</p>
+<ul>
+<li>Cargar datos en nuestra aplicacion.<br />
+</li>
+<li>Crear objetos reactivos.<br />
+</li>
+<li>visualizar los datos.</li>
+</ul>
+<hr />
 <p>Iniciaremos cargando las librerias que vamos a utilizar</p>
 <pre class="r"><code># Cargar las librerias
 library(shiny)
@@ -413,52 +422,62 @@ df &lt;- read.csv(&#39;../Datos/Processed/Vacunacion.csv&#39;)</code></pre>
 </ul></li>
 </ul></li>
 </ul>
-<p>Hay diferentes especificaciones para el formato de la Pagina (en este ejercicio usamos <code>fluidPage()</code> por ejemplo), y los paneles se pueden organizar en diferentes Layouts, para esta aplicacion estamos usando el layout <code>sidebarLayout()</code>, para ver que otras opciones de layout tenemos, podemos consultar las funciones llamando la libreria escribiendo <code>shiny::</code> (sin cargarla) y usando <em>tab</em> para que Rstudio nos muestre la lista de funciones disponibles. Al ir escribiendo la palabra <em>layout</em>, la opcion de autocompletar de Rstudio ira reduciendo las opciones a las funciones que contengan la palabra layout en su nombre, por ejemplo:</p>
+<p>Hay diferentes especificaciones para el formato de la Pagina (en este ejercicio usamos <code>fluidPage()</code> por ejemplo), y los paneles se pueden organizar en diferentes Layouts. Para esta aplicacion estamos usando el layout <code>sidebarLayout()</code>. Para ver que otras opciones de layout tenemos, podemos consultar las funciones llamando la libreria escribiendo <code>shiny::</code> (sin cargarla) y usando <em>tab</em> para que Rstudio nos muestre la lista de funciones disponibles. Al ir escribiendo la palabra <em>layout</em>, la opcion de autocompletar de Rstudio ira reduciendo las opciones a las funciones que contengan la palabra layout en su nombre, por ejemplo:</p>
 <p><img src="img/Ia_00-Layout.GIF" style="width:60%" align="center"></p>
 <p>Los inputs en shiny los definimos con la funcion correspondiente al tipo de input que queramos introducir. Por ejemplo, si queremos introducir una variable categorica, podemos usar la funcion <code>selectInput()</code>, si queremos una variable numerica podemos usar <code>sliderInput()</code> o <code>numericInput()</code>. Podemos usar el mismo metodo que usamos para ver los layouts, para buscar todas las funciones en shiny que sean inputs.</p>
 <p><img src="img/Ia_01-Inputs.GIF" style="width:60%" align="center"></p>
-<p>De manera similar, los outputs tienen que ser especificados de acuerdo al tipo de output que queramos, si sera un plot, una tabla, o algun otro tipo de outputs que veremos mas adelante. Para as informacion sobre los layouts, inputs y outputs, referirse a la documentacion de shiny.</p>
+<p>De manera similar, los outputs tienen que ser especificados de acuerdo al tipo de output que queramos, si sera un plot, una tabla, o algun otro tipo de outputs que veremos mas adelante. Para mas informacion sobre los layouts, inputs y outputs, referirse a la documentacion de shiny.</p>
 <pre class="r"><code># Definir Interfaz
 ui &lt;- fluidPage(
     # Titulo de la applicacion
     titlePanel(&quot;Nueva aplicacion&quot;),
     # Barra lateral con un input
     sidebarLayout(
+      # Panel para los inputs
         sidebarPanel(
-          # Input para motivo de movimiento
-          selectInput(inputId = &#39;Motivo&#39;, label = &#39;Motivo :&#39;, 
-                      choices = unique(df$MOTIVO), multiple = T, 
-                      selected = unique(df$MOTIVO))
+          # Input para tipo de granja
+          selectInput(inputId = &#39;tipo&#39;, label = &#39;Tipo :&#39;, 
+                      choices = unique(df$tipo), multiple = T, 
+                      selected = unique(df$tipo))
         ),
-        # Outputs
+        # Panel para los outputs
         mainPanel(
-           plotOutput(&quot;TSp&quot;) # Figura de serie de tiempo
+           plotOutput(&quot;BarPlot&quot;) # Figura de barras
         )
     )
 )</code></pre>
 </div>
 <div id="servidor-server" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Servidor (server)</h1>
-<pre class="r"><code># Define server logic required to draw a histogram
+<p>El servidor (server) debe incluir todos los procesos que ejecutaremos en nuestra aplicacion.</p>
+<pre class="r"><code># Definir el servidor
 server &lt;- function(input, output) {
+  # Objeto reactivo 
   x &lt;- reactive({
         p &lt;- df %&gt;% # base de datos
-          filter(MOTIVO %in% input$Motivo) %&gt;% # filtramos los datos
-          group_by(week) %&gt;% 
-          summarise(N = n(), CBZ = sum(CBZ, na.rm = T))
+          filter(tipo %in% input$tipo) # filtramos los datos
       })
-
-    output$TSp &lt;- renderPlot({
-      x() %&gt;% 
-        ggplot(aes(x = week)) +
-        geom_line(aes(y = N))
+  
+  # Primer output (grafico de barras)
+  output$BarPlot &lt;- renderPlot({
+    x() %&gt;% 
+      group_by(YEAR, tipo) %&gt;% # agruparlos por año y tipo de explotacion
+      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %&gt;%  # sumar los vacunados totales
+      ggplot() + # call ggplot
+      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
+               position = &#39;dodge&#39;, stat = &#39;identity&#39;) + # especificar posicion
+      theme_minimal() # tema para la figura
     })
 }</code></pre>
 </div>
 <div id="corriendo-la-aplicacion" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Corriendo la aplicacion</h1>
-<pre class="r"><code># Run the application 
+<p>En el laboratorio anterior corrimos nuestra aplicacion usando el boton de <em>Run App</em> que se encuentra en la parte superior derecha de la seccion del editor del codigo, realmente lo que hace este boton es mandar todo el codigo del archivo a la consola.</p>
+<pre class="r"><code># Correr la aplicacion
 shinyApp(ui = ui, server = server)</code></pre>
+</div>
+<div id="ejercicio" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Ejercicio</h1>
 </div>
 
 

@@ -274,10 +274,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Instructors.html">
+      <a href="Instructores.html">
         <span class="fa fa-users"></span>
          
-        Instructors
+        Instructores
       </a>
     </li>
     <li>
@@ -320,9 +320,6 @@ $(document).ready(function () {
 </div>
 <div id="instructores" class="section level1">
 <h1>Instructores:</h1>
-<p><strong>Jose Pablo Gomez-Vazquez</strong>, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.<br />
-website: <a href="http://www.spablo-temporal.network" class="uri">http://www.spablo-temporal.network</a></p>
-<p><strong>Alejandro Zaldivar Gomez</strong>, MVZ, MCS. Alejandro es un estudiante doctoral en la FMVZ-UNAM interesado en la aplicación de modelos matemáticos, la epidemiología espacial y el análisis de riesgo. Estudio la licenciatura en la FMVZ-UAEMex y además obtuvo una especialidad en Sistemas de Información Geográficos en la Facultad de Geografía de la UAEMex; posteriormente realizó su maestría (Maestria en Ciencias de la Salud) en la Escuela Superior de Medicina del IPN. Alejandro también ha laborado en México como analista en el área de diagnóstico de enfermedades infecciosas y en los programas federales de prevención y control de enfermedades en salud animal. Mi proyecto de tesis tiene por objetivo la aplicación de modelos epidemiológicos en enfermedades transfronterizas de interés veterinario, así como evaluar alternativas de planes de emergencia y atención de brotes. Alejandro busca desarrollar nuevas herramientas de análisis aplicados a la vigilancia epidemiológica y el fortalecimiento de los programas preventivos de enfermedades infecciosas.</p>
 <hr />
 </div>
 <div id="objetivos" class="section level1">
@@ -356,6 +353,7 @@ website: <a href="http://www.spablo-temporal.network" class="uri">http://www.spa
 - <a href="0c_Spatial_intro.html">Intro to Spatial data</a></p>
 <div id="paqueterias" class="section level2">
 <h2>Paqueterias</h2>
+<p>Durante el curso usaremos varias paqueterias de R, generalmente no tardan mucho en instalarse, pero si es posible, trata de instalarlas con anticipacion para no perder mucho tiempo del curso en las instalaciones. Algunas de las paqueterias que usaremos son:</p>
 <ul>
 <li>shiny</li>
 <li>tidyverse</li>
@@ -365,6 +363,7 @@ website: <a href="http://www.spablo-temporal.network" class="uri">http://www.spa
 <li>plotly</li>
 <li>ggpubr</li>
 <li>sf</li>
+<li>DT</li>
 <li>tidygraph</li>
 </ul>
 </div>
@@ -372,9 +371,12 @@ website: <a href="http://www.spablo-temporal.network" class="uri">http://www.spa
 <div id="otros-links" class="section level1">
 <h1>Otros links:</h1>
 <ul>
-<li><a href="https://shiny.rstudio.com/articles/tag-glossary.html">Tags</a></li>
+<li><a href="https://shiny.rstudio.com/articles/tag-glossary.html">Shiny tags</a></li>
 <li><a href="https://plotly.com/r/">plotly</a></li>
 <li><a href="https://rstudio.github.io/shinydashboard/structure.html">ShinyDash</a></li>
+<li><a href="https://www.r-graph-gallery.com">R graph gallery</a></li>
+<li><a href="https://shiny.rstudio.com/gallery/">Shiny gallery</a></li>
+<li><a href="https://shiny.rstudio.com/gallery/widget-gallery.html">SHiny widget gallery</a></li>
 </ul>
 </div>
 <div id="horario" class="section level1">
@@ -387,12 +389,13 @@ website: <a href="http://www.spablo-temporal.network" class="uri">http://www.spa
 <ul>
 <li><p><strong>Día 0 (14 de Marzo, 2022):</strong> Sesión de instalación de R studio, github y material pre-curso (opcional). Tiempo: 2 horas.</p></li>
 <li><p><strong>Dia 1 (15 de Marzo 2022):</strong> Como construir una Shiny app. <!-- - Introducción (15 minutos) --> <!-- - Arquitectura y estructura de la app (30 minutos) --> <!-- - Ejercicio 1: Abrir un archivo de Shiny app en R studio (15 minutos) --> <!-- - Inputs, outputs y server (30 minutos) --><br />
-<!-- - Introduccion a base de datos (10 min) --> <!-- - Ejercicio 2: (90 minutos) --> <!-- - Cargar una base de datos --> <!-- - Agregar y modificar los input$ --> <!-- - Agregar y modificar los output$ --> <!-- - Sin código: Agreguen y modifiquen 3 inputs y 3 output (tabla, mapa y grafica) --> <!-- - Checkpoint -  --></p></li>
+<!-- - Introduccion a base de datos (10 min) --> <!-- - Ejercicio 2: (90 minutos) --> <!-- - Sin código: Agreguen y modifiquen 3 inputs y 3 output (tabla, mapa y grafica) --> <!-- - Checkpoint -  --></p></li>
 <li><p><strong>Dia 2 (16 de Marzo 2022):</strong> Configuración de tu entorno de desarrollo <!-- - Recapitulación (15 minutos) --> <!-- - Configurar la interfaz del usuario (45 minutos) --> <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) --> <!-- - Reactividad basica (30 minutos) --> <!-- - Ejercicio 4: Reactividad --> <!-- - Botones de acción --> <!-- - Cajas de mensajes --> <!-- - Checkpoint -  --></p></li>
 <li><p><strong>Dia 3 (17 de Marzo 2022):</strong> Gráficos avanzados y publicación de shiny app <!-- - Recapitulación (15 minutos) --> <!-- - Graficos avanzados DT, plotly y visNetwork, mapbox (30 minutos) --> <!-- - Ejercicio 5: Agregar graficos y mapas interactivos (45 minutos) --> <!-- - Publicación en github y servidores de google drive (30 minutos) --> <!-- - Ejercicio 6: Publicar el shiny app y conectar con google drive (45 minutos)  --> <!-- - Checkpoint -  --> <!-- - Tarea boceto - --></p></li>
 <li><p><strong>Dia 4 (18 de Marzo 2022):</strong> Sesión de trabajo para proyectos (opcional) <!-- - Presenten su borrador de aplicación --></p></li>
 <li><p><strong>Dìa 5 (21 de Marzo 2022):</strong> Presentación de trabajos</p></li>
 </ul>
+<p><img src="img/00_Schedule.png" style="width:60%" align="center"></p>
 </div>
 
 

@@ -22,8 +22,8 @@ navbar:
   - text: Contact
     menu:
     - icon: fa-users
-      text: Instructors
-      href: Instructors.html
+      text: Instructores
+      href: Instructores.html
     - icon: fa-server
       text: CADMS Website
       href: https://cadms.vetmed.ucdavis.edu

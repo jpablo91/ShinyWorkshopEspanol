@@ -1,0 +1,19 @@
+---
+title: "Lab IIb"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = F)
+```
+
+# Introduccion
+
+Objetivo:
+En este laboratorio vamos a introducir reactividad avanzada
+
+------------------------------

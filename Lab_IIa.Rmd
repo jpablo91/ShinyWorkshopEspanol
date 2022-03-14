@@ -1,0 +1,119 @@
+---
+title: "Lab IIa"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = F)
+```
+
+# Introduccion
+
+Objetivo:
+En este laboratorio vamos a introducir shinydashboard. En este laboratorio seguiremos construyendo en el archivo que creamos para una aplicacion basica en el [laboratorio Ib](Lab_Ib.html), si no terminaste el laboratorio, puedes descargar el checkpoint en [este link]().  
+
+------------------------------
+
+
+
+```{r}
+library(shiny)
+library(shinydashboard) # para crear un dashboard
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+
+# Cargar los datos
+df <- read.csv('../Datos/Processed/Vacunacion.csv')
+```
+
+
+
+```{r}
+# Checkpoint IIa:
+# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
+# Cargar las librerias
+library(shiny)
+library(shinydashboard) # para crear un dashboard
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+
+# Cargar los datos
+df <- read.csv('../Datos/Processed/Vacunacion.csv')
+
+# Definir Interfaz
+# Encabezado -----------
+header <- dashboardHeader(title = 'Nueva aplicacion')
+# Sidebar -------------
+sidebar <- dashboardSidebar(sidebarMenu(
+  menuItem("Main", tabName = "T1")
+))
+# Body -----------
+body <- dashboardBody(
+  tabItems(
+    # Primer tab
+    tabItem(tabName = 'T1',
+            fluidRow(column(width = 12, 
+                            box(title = 'Inputs', width = 12,
+                                selectInput(inputId = 'tipo', label = 'Tipo :', 
+                                            choices = unique(df$tipo), multiple = T, 
+                                            selected = unique(df$tipo)
+                                            )
+                                ),
+                            box(title = 'Outputs', width = 6,
+                                plotOutput("BarPlot"), # Figura de barras
+                                ),
+                            box(title = 'Pie Chart', width = 6,
+                                plotOutput('Pie') # Pie chart
+                                )
+                            )
+                     )
+            )
+    )
+)
+
+# UI -----------------
+ui <- dashboardPage(header = header, 
+                    sidebar = sidebar, 
+                    body = body
+)
+
+# Server -------------------
+# Definir el servidor
+server <- function(input, output) {
+  # Objeto reactivo 
+  x <- reactive({
+        p <- df %>% # base de datos
+          filter(tipo %in% input$tipo) # filtramos los datos
+      })
+  
+  # Primer output (grafico de barras)
+  output$BarPlot <- renderPlot({
+    x() %>% 
+      group_by(YEAR, tipo) %>% # agruparlos por año y tipo de explotacion
+      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %>%  # sumar los vacunados totales
+      ggplot() + # call ggplot
+      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
+               position = 'dodge', stat = 'identity') + # especificar posicion
+      theme_minimal() # tema para la figura
+    })
+  
+  # Segundo output (grafico de pay)
+  output$Pie <- renderPlot({
+    x() %>%
+      group_by(tipo) %>% 
+      summarise(n = sum(VAC_BOV, na.rm = T)) %>% 
+      ggplot() + # call ggplot
+      geom_bar(aes(x = '', y = n, fill = tipo), stat = 'identity') + # to make a pie chart we start it as a bar chart
+      coord_polar('y', start = 0) + # then we change the coordinates 
+      theme_void() # we can add themes to change its appearance
+    })
+}
+
+# Correr la aplicacion
+shinyApp(ui = ui, server = server)
+```
+

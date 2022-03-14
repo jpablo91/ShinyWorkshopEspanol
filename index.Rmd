@@ -16,11 +16,7 @@ La visualización de datos forma parte escencial de la comunicación en la cienc
 
 # Instructores:
 
-**Jose Pablo Gomez-Vazquez**, MVZ, MPVM, PhD. Pablo es un investigador postdoctoral interesado en la modelación espacio-temporal para la prevención y control de enfermedades infecciosas. Obtuvo su licenciatura en la UANL, posteriormente realizó su maestría (Master in preventive veterinary medicine) en UC Davis y después el doctorado en Epidemiología también el UC Davis. Pablo se especializa en la aplicación de metodologías para el análisis y la modelación de sistemas complejos (p.ej. Análisis de redes sociales y modelos basados en agentes). Pablo ha trabajado con diferentes instituciones en Latinoamérica y África para la modelación de enfermedades emergentes y transfronterizas. Una de las principales motivaciones para pablo es el desarrollo de herramientas de libre acceso que se puedan aplicar para soportar la toma de decisiones y faciliten la comunicación de riesgo.  
- website: http://www.spablo-temporal.network
 
-
-**Alejandro Zaldivar Gomez**, MVZ, MCS. Alejandro es un estudiante doctoral en la FMVZ-UNAM interesado en la aplicación de modelos matemáticos, la epidemiología espacial y el análisis de riesgo. Estudio la licenciatura en la FMVZ-UAEMex y además obtuvo una especialidad en Sistemas de Información Geográficos en la Facultad de Geografía de la UAEMex; posteriormente realizó su maestría (Maestria en Ciencias de la Salud) en la Escuela Superior de Medicina del IPN. Alejandro también ha laborado en México como analista en el área de diagnóstico de enfermedades infecciosas y en los programas federales de prevención y control de enfermedades en salud animal. Mi proyecto de tesis tiene por objetivo la aplicación de modelos epidemiológicos en enfermedades transfronterizas de interés veterinario, así como evaluar alternativas de planes de emergencia y atención de brotes. Alejandro busca desarrollar nuevas herramientas de análisis aplicados a la vigilancia epidemiológica y el fortalecimiento de los programas preventivos de enfermedades infecciosas.
 
 
  ------------
@@ -62,6 +58,7 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Intro to Spatial data](0c_Spatial_intro.html)
   
 ## Paqueterias 
+Durante el curso usaremos varias paqueterias de R, generalmente no tardan mucho en instalarse, pero si es posible, trata de instalarlas con anticipacion para no perder mucho tiempo del curso en las instalaciones. Algunas de las paqueterias que usaremos son:    
   
   - shiny
   - tidyverse
@@ -71,13 +68,17 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - plotly
   - ggpubr
   - sf
+  - DT
   - tidygraph
   
 # Otros links:
 
-  - [Tags](https://shiny.rstudio.com/articles/tag-glossary.html)
+  - [Shiny tags](https://shiny.rstudio.com/articles/tag-glossary.html)
   - [plotly](https://plotly.com/r/)
   - [ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
+  - [R graph gallery](https://www.r-graph-gallery.com)
+  - [Shiny gallery](https://shiny.rstudio.com/gallery/)
+  - [SHiny widget gallery](https://shiny.rstudio.com/gallery/widget-gallery.html)
 
 
 # Horario 
@@ -96,9 +97,6 @@ Todas las sesiones seran de 3 a 6 pm
      <!-- - Inputs, outputs y server (30 minutos) -->            
      <!-- - Introduccion a base de datos (10 min) -->
      <!-- - Ejercicio 2: (90 minutos) -->
-     <!-- - Cargar una base de datos -->
-     <!-- - Agregar y modificar los input$ -->
-     <!-- - Agregar y modificar los output$ -->
      <!-- - Sin código: Agreguen y modifiquen 3 inputs y 3 output (tabla, mapa y grafica) -->
      <!-- - Checkpoint -  --> 
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
@@ -124,3 +122,5 @@ Todas las sesiones seran de 3 a 6 pm
      <!-- - Presenten su borrador de aplicación -->
 
    - **Dìa 5 (21 de Marzo 2022):** Presentación de trabajos
+   
+<img src="img/00_schedule.png" style="width:60%" align="center">
