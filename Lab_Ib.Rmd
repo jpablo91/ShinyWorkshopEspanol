@@ -1,0 +1,104 @@
+---
+title: "Lab Ib"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = F)
+```
+
+# Introduccion
+
+En este laboratorio vamos a modificar la plantilla inicial de shiny para poder cargar nuestros datos y hacer figuras reactivas.  
+
+Iniciaremos cargando las librerias que vamos a utilizar
+
+```{r Loading libraries}
+# Cargar las librerias
+library(shiny)
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+```
+
+Ahora cargaremos los datos que usaremos. Asegurate de poner la direccion del archivo correctamente. En el caso de mi proyecto, yo tengo mis datos en una carpeta que se llama *Datos* y quiero cargar el archivo *Vacunacion.csv*.
+
+```{r Loading data}
+# Cargar los datos
+df <- read.csv('../Datos/Processed/Vacunacion.csv')
+```
+  
+La libreria `shiny` nos proporciona varias funciones para crear nuestra aplicacion. La principal es la funcion `shinyApp`, la cual nos pide dos argumentos `ui` y `server`. En este laboratorio vamos a crear dos objetos que contengan todo lo necesario para ser usados como argumentos en esta funcion. 
+
+# Interfaz (UI)
+
+La interfaz (UI), es donde definimos el tipo de input y outputs que tendra nuestra aplicacion, asi como cualquier otra informacion relevante que nos ayude a explicar la aplicacion. La informacion de nuestra aplicacion estara definida en diferentes niveles anidados con la siguiente jerarquia:  
+  
+  - Pagina (Page)  
+    - Panel  
+      - Inputs
+      - Outputs
+  
+Hay diferentes especificaciones para el formato de la Pagina (en este ejercicio usamos `fluidPage()` por ejemplo), y los paneles se pueden organizar en diferentes Layouts, para esta aplicacion estamos usando el layout `sidebarLayout()`, para ver que otras opciones de layout tenemos, podemos consultar las funciones llamando la libreria escribiendo `shiny::` (sin cargarla) y usando *tab* para que Rstudio nos muestre la lista de funciones disponibles. Al ir escribiendo la palabra *layout*, la opcion de autocompletar de Rstudio ira reduciendo las opciones a las funciones que contengan la palabra layout en su nombre, por ejemplo:  
+
+<img src="img/Ia_00-Layout.GIF" style="width:60%" align="center">
+
+Los inputs en shiny los definimos con la funcion correspondiente al tipo de input que queramos introducir. Por ejemplo, si queremos introducir una variable categorica, podemos usar la funcion `selectInput()`, si queremos una variable numerica podemos usar `sliderInput()` o  `numericInput()`. Podemos usar el mismo metodo que usamos para ver los layouts, para buscar todas las funciones en shiny que sean inputs.  
+
+<img src="img/Ia_01-Inputs.GIF" style="width:60%" align="center">
+
+De manera similar, los outputs tienen que ser especificados de acuerdo al tipo de output que queramos, si sera un plot, una tabla, o algun otro tipo de outputs que veremos mas adelante. Para as informacion sobre los layouts, inputs y outputs, referirse a la documentacion de shiny.
+
+```{r}
+# Definir Interfaz
+ui <- fluidPage(
+    # Titulo de la applicacion
+    titlePanel("Nueva aplicacion"),
+    # Barra lateral con un input
+    sidebarLayout(
+        sidebarPanel(
+          # Input para motivo de movimiento
+          selectInput(inputId = 'Motivo', label = 'Motivo :', 
+                      choices = unique(df$MOTIVO), multiple = T, 
+                      selected = unique(df$MOTIVO))
+        ),
+        # Outputs
+        mainPanel(
+           plotOutput("TSp") # Figura de serie de tiempo
+        )
+    )
+)
+```
+
+
+# Servidor (server)
+
+```{r}
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  x <- reactive({
+        p <- df %>% # base de datos
+          filter(MOTIVO %in% input$Motivo) %>% # filtramos los datos
+          group_by(week) %>% 
+          summarise(N = n(), CBZ = sum(CBZ, na.rm = T))
+      })
+
+    output$TSp <- renderPlot({
+      x() %>% 
+        ggplot(aes(x = week)) +
+        geom_line(aes(y = N))
+    })
+}
+```
+
+
+# Corriendo la aplicacion
+
+```{r}
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+

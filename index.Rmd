@@ -86,6 +86,8 @@ Todas las sesiones seran de 3 a 6 pm
 
 # Temario:
 
+<!-- La idea de los laboratorios es que se expliquen por si mismos, por si los quieren revisar mas adelante. EN este curso introduciremos los laboratorios dando una breve explicacion, a la mitad del tiempo haremos una encuesta para ver el avance y revisar dudas, y los ultimos 5 minutos hablaremos de las conclusiones para cada laboratorio -->
+
    - **Día 0 (14 de Marzo, 2022):** Sesión de instalación de R studio, github y material pre-curso (opcional). Tiempo: 2 horas.
    - **Dia 1 (15 de Marzo 2022):** Como construir una Shiny app.
      <!-- - Introducción (15 minutos) -->
