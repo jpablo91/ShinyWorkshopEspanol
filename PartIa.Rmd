@@ -1,0 +1,14 @@
+---
+title: 'I: Arquitectura y estructura de la app'
+output:
+  html_document:
+    df_print: paged
+---
+
+<object data="Slides/I.pdf" width="750px" height="750px">
+    <embed src="Slides/I.pdf">
+    </embed>
+</object>
+
+
+[Inicio](index.html)
