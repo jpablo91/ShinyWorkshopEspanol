@@ -5,8 +5,8 @@ output:
     df_print: paged
 ---
 
-<object data="Slides/Ia_Arquitectura.pdf" width="750px" height="750px">
-    <embed src="Slides/Ia_Arquitectura.pdf">
+<object data="Slides/Ia_Arq.pdf" width="750px" height="750px">
+    <embed src="Slides/Ia_Arq.pdf">
     </embed>
 </object>
 
