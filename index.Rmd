@@ -66,13 +66,13 @@ Durante el curso usaremos varias paqueterias de R, generalmente no tardan mucho 
   
 # Otros links:
 
-  - [Shiny tags](https://shiny.rstudio.com/articles/tag-glossary.html)
-  - [plotly](https://plotly.com/r/)
-  - [ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
-  - [R graph gallery](https://www.r-graph-gallery.com)
-  - [Shiny gallery](https://shiny.rstudio.com/gallery/)
-  - [SHiny widget gallery](https://shiny.rstudio.com/gallery/widget-gallery.html)
-  - [Proyecciones](https://epsg.io)
+  - [R graph gallery](https://www.r-graph-gallery.com), Consulta diferentes tipos de figuras con ejemplos en R.  
+  - [EPSG](https://epsg.io), Consultar diferentes proyecciones de sistemas de coordenadas.  
+  - [Shiny gallery](https://shiny.rstudio.com/gallery/). Ejemplos de diferentes aplicaciones en shiny.  
+  - [Shiny widget gallery](https://shiny.rstudio.com/gallery/widget-gallery.html)
+  - [Shiny tags glossary](https://shiny.rstudio.com/articles/tag-glossary.html), Differentes shiny tags que puedes usar para tu interfaz de usuario.  
+  - [Pagina de documentacion de la libreria plotly](https://plotly.com/r/)
+  - [Documentacion de ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
 
 
 # Horario 
@@ -81,7 +81,9 @@ Todas las sesiones seran de 3 a 6 pm
 
 # Temario:
 
-[Link del proyecto en Rstudio Cloud](https://rstudio.cloud/spaces/227267/join?access_code=BSSXEMnL078kkrh7zuAZSipB0IUzzDCM0JyZh_s0)
+[Link del proyecto en Rstudio Cloud](https://rstudio.cloud/spaces/227267/join?access_code=BSSXEMnL078kkrh7zuAZSipB0IUzzDCM0JyZh_s0)  
+
+[Link para material compartido](https://ucdavis.box.com/s/v2wlgjm16bl8vo02ujd7hk5yduuulywi)
 
 <!-- La idea de los laboratorios es que se expliquen por si mismos, por si los quieren revisar mas adelante. EN este curso introduciremos los laboratorios dando una breve explicacion, a la mitad del tiempo haremos una encuesta para ver el avance y revisar dudas, y los ultimos 5 minutos hablaremos de las conclusiones para cada laboratorio -->
 
