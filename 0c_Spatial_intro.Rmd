@@ -127,7 +127,8 @@ We can use the function `st_transform()` to set a projection to our data.
 
 ```{r}
 Iop <- Io %>%
-  st_transform(st_crs("+init=EPSG:26975"))
+  st_transform(st_crs(26975))
+
 Nodesp <- Nodes %>% 
   st_transform(st_crs(Iop))
 ```

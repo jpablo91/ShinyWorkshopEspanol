@@ -161,6 +161,11 @@ Ok, so we used several functions connected to calculate the prevalence, so I wil
 
 ```{r}
 # Answer
+PRRS %>% 
+  group_by(farm_type) %>% 
+  summarise(N = n(), positive = sum(Result)) %>% 
+  mutate(Prev = positive/N) %>% 
+  arrange(desc(Prev))
 ```
 
 We can use any function with summarize, this is very useful because it allows to obtain quick statistics stratified by groups, for example, we can obtain the median, mean and variance by age and sex:  
@@ -193,8 +198,10 @@ In <- mov %>%
 # Joining the two datasets
 nodes <- nodes %>% 
   left_join(Out, by ="id")
+
 nodes <- nodes %>%
   left_join(In, by = "id")
+nodes
 ```
 
 Now we will get the ones that had the higher number of movements: 
@@ -231,7 +238,7 @@ The same can be achieved with ggplot:
 # We load the library
 library(ggplot2)
 
-nodes %>% # first we start with the name of out data.frame
+nodes %>% # first we start with the name of our data.frame
   ggplot() + # then we call ggplot
   geom_point(aes(Outgoing, Incoming)) # and we add the first layer, which is the points
 ```
@@ -257,7 +264,7 @@ Again, we can replicate this with ggplot. We just need to transform a little bit
 # we create an empty list
 Figs <- list()
 
-Figs[['Pie']] <- TM %>% # the data we are using
+Figs[['PieChart']] <- TM %>% # the data we are using
   data.frame() %>% # We convert it to a data.frame
   rename(group = Var1, Test = Var2) %>% # rename some of the variables
   filter(Test == 1) %>% # select only the positive cases
@@ -305,7 +312,7 @@ For the next plot we will expand on the customization of the plots. First we wil
 
 ```{r }
 # Create a new color palette:
-colpal <- c("#BF0502", "#FFA7A6")
+colpal <- c("#C93434", "#5BA1F0", "#52C4A6")
 
 # Make the plot
 Figs[['BarPlot']] <- PRRS %>%  # the data we are using
@@ -385,4 +392,20 @@ There are multiple types of plots and selecting the most appropriate for what we
 ------------------
 
 [Go Back](index.html)
+
+
+```{r}
+# Create an adjacency matrix: 
+# a list of connections between 20 origin nodes, and 5 destination nodes:
+numbers <- sample(c(1:1000), 100, replace = T)
+data <- matrix( numbers, ncol=5)
+rownames(data) <- paste0("orig-", seq(1,20))
+colnames(data) <- paste0("dest-", seq(1,5))
+
+# Load the circlize library
+library(circlize)
+ 
+# Make the circular plot
+chordDiagram(data, transparency = 0.5)
+```
 
