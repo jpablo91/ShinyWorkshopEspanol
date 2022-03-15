@@ -1,0 +1,14 @@
+---
+title: 'Ib: Inputs, outputs y server'
+output:
+  html_document:
+    df_print: paged
+---
+
+<object data="Slides/InsOuts.pdf" width="750px" height="750px">
+    <embed src="Slides/InsOuts.pdf">
+    </embed>
+</object>
+
+
+[Inicio](index.html)

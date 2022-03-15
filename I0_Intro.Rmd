@@ -1,0 +1,14 @@
+---
+title: 'I0: Intoduccion'
+output:
+  html_document:
+    df_print: paged
+---
+
+<object data="Slides/Introduccion.pdf" width="750px" height="750px">
+    <embed src="Slides/Introduccion.pdf">
+    </embed>
+</object>
+
+
+[Inicio](index.html)
