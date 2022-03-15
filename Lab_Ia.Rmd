@@ -22,7 +22,6 @@ Objetivos:
   - Correr una shiny app desde R.  
 
 
-
 --------------------
 
 # Interfaz de R studio
@@ -38,11 +37,12 @@ Al iniciar R studio vamos a observar 4 secciones:
 
 ## Proyectos
 
-Rstudio es mas que un editor de codigo para R, Rstudio tambien puede ser usado para administrar tus proyectos. Esto tiene varias ventajas por que te ayuda a contener tu trabajo de manera organizada en un directorio con todos los archivos y objetos que crees en tu entorno (environment). Cuando inicias Rstudio por primera vez, se inicia en un projecto vacio, para crear un proyecto haz click en el menu superior derecho de la opcion de los proyectos y selecciona *New Project...*  
+Rstudio es mas que un editor de codigo para R, Rstudio tambien puede ser usado para administrar tus proyectos. Esto tiene varias ventajas por que te ayuda a contener tu trabajo de manera organizada en un directorio con todos los archivos y objetos que crees en tu entorno (environment).  
+Cuando inicias Rstudio por primera vez, se inicia en un projecto vacio, para crear un proyecto haz click en el menu superior derecho de la opcion de los proyectos y selecciona *New Project...*  
 
 <img src="img/Ia_01-NewProj.png" style="width:50%" align="center">
 
-Despues te dara la opcion de crear un nuevo proyecto en un nuevo directorio, en un directorio existente o version control. Para hoy seleccionaremos la opcion de crear un nuevo proyecto en un nuevo directorio (*New directory*)  
+Despues te dara la opcion de crear un nuevo proyecto en un nuevo directorio, en un directorio existente o control de version. Para hoy seleccionaremos la opcion de crear un nuevo proyecto en un nuevo directorio (*New directory*)  
 
 <img src="img/Ia_02-NewProj.png" style="width:30%" align="center">
   
@@ -61,7 +61,14 @@ Al crear el nuevo projecto, en la pestaña de archivos, veras que Rstudio creo l
 
 # Creando la primera aplicacion  
 
-Hay multiples maneras de inciar una shiny app, en general la aplicacion shiny consta de 2 partes: una interfaz de usuario (ui) y un servidor (server). Primero hay que asegurarnos de tener instalada la libreria de shiny.
+Hay multiples maneras de inciar una shiny app, en general la aplicacion shiny consta de 4 partes:  
+  
+  - Cargar paqueterias, datos y funciones.  
+  - Interfaz de usuario (UI).  
+  - Servidor (server).  
+  - Llamar la funcion `shinyApp()`  
+  
+Primero vamos a asegurarnos de tener instalada la libreria de shiny.  
 
 ```{r eval = F}
 # Instalar la libreria

@@ -13,13 +13,13 @@ knitr::opts_chunk$set(eval = F)
 
 # Introduccion
 
-En este laboratorio vamos a modificar la plantilla inicial de shiny para cargar nuestros datos y hacer figuras reactivas.  
+En este laboratorio vamos a iniciar una shiny app desde 0 y desarrollarla para generar figuras interactivas.  
 
 Objetivos:
 
   - Cargar datos en nuestra aplicacion.  
-  - Crear objetos reactivos.  
-  - visualizar los datos.  
+  - Crear inputs y outputs  
+  - Visualizar los datos.  
   
 -----------------------
 
@@ -32,27 +32,22 @@ library(dplyr) # Para manipulacion de datos
 library(ggplot2) # Para las figuras
 ```
 
-Ahora cargaremos los datos que usaremos. Asegurate de poner la direccion del archivo correctamente. En el caso de mi proyecto, yo tengo mis datos en una carpeta que se llama *Datos* y quiero cargar el archivo *Vacunacion.csv*.
+Los datos se encuentran en el paquete de STNet, Puedes acceder a ellos usando:
 
-```{r Loading data}
-# Cargar los datos
-df <- read.csv('../Datos/Processed/Vacunacion.csv')
+```{r Loading the data}
+# Cargar los datos del paqeute STNet
+# Asegurate de tener la version mas reciente de STNet:
+# devtools::install_github('jpablo91/STNet')
+library(STNet)
+data("vac")
 ```
+
   
 La libreria `shiny` nos proporciona varias funciones para crear nuestra aplicacion. La principal es la funcion `shinyApp`, la cual nos pide dos argumentos `ui` y `server`. En este laboratorio vamos a crear dos objetos que contengan todo lo necesario para ser usados como argumentos en esta funcion. 
 
 # Interfaz (UI)
 
-La interfaz (UI), es donde definimos el tipo de input y outputs que tendra nuestra aplicacion, asi como cualquier otra informacion relevante que nos ayude a explicar la aplicacion. La informacion de nuestra aplicacion estara definida en diferentes niveles anidados con la siguiente jerarquia:  
-  
-  - Pagina (Page)  
-    - Panel  
-      - Inputs
-      - Outputs
-  
-Hay diferentes especificaciones para el formato de la Pagina (en este ejercicio usamos `fluidPage()` por ejemplo), y los paneles se pueden organizar en diferentes Layouts. Para esta aplicacion estamos usando el layout `sidebarLayout()`. Para ver que otras opciones de layout tenemos, podemos consultar las funciones llamando la libreria escribiendo `shiny::` (sin cargarla) y usando *tab* para que Rstudio nos muestre la lista de funciones disponibles. Al ir escribiendo la palabra *layout*, la opcion de autocompletar de Rstudio ira reduciendo las opciones a las funciones que contengan la palabra layout en su nombre, por ejemplo:  
-
-<img src="img/Ia_00-Layout.GIF" style="width:60%" align="center">
+La interfaz (UI), es donde definimos el tipo de input y outputs que tendra nuestra aplicacion, asi como cualquier otra informacion relevante que nos ayude a explicar la aplicacion.  
 
 Los inputs en shiny los definimos con la funcion correspondiente al tipo de input que queramos introducir. Por ejemplo, si queremos introducir una variable categorica, podemos usar la funcion `selectInput()`, si queremos una variable numerica podemos usar `sliderInput()` o  `numericInput()`. Podemos usar el mismo metodo que usamos para ver los layouts, para buscar todas las funciones en shiny que sean inputs.  
 
@@ -63,22 +58,19 @@ De manera similar, los outputs tienen que ser especificados de acuerdo al tipo d
 ```{r}
 # Definir Interfaz
 ui <- fluidPage(
-    # Titulo de la applicacion
-    titlePanel("Nueva aplicacion"),
-    # Barra lateral con un input
-    sidebarLayout(
-      # Panel para los inputs
-        sidebarPanel(
-          # Input para tipo de granja
-          selectInput(inputId = 'tipo', label = 'Tipo :', 
-                      choices = unique(df$tipo), multiple = T, 
-                      selected = unique(df$tipo))
-        ),
-        # Panel para los outputs
-        mainPanel(
-           plotOutput("BarPlot") # Figura de barras
-        )
-    )
+  # Panel del titulo de la applicacion
+  titlePanel("Laboratorio 1"),
+  # Panel lateral 
+  sidebarPanel(
+    # Input para motivo de movimiento
+    selectInput(inputId = "Mun", label = "Municipios:", 
+                choices = unique(vac$NOM_MUN), multiple = T, 
+                selected = unique(vac$NOM_MUN))
+  ),
+  # Panel de Outputs
+  mainPanel(
+    plotOutput("VacMun") # Figura de serie de tiempo
+  )
 )
 ```
 
@@ -89,24 +81,22 @@ El servidor (server) debe incluir todos los procesos que ejecutaremos en nuestra
 
 
 ```{r}
-# Definir el servidor
+# Define server logic required to draw a histogram
 server <- function(input, output) {
-  # Objeto reactivo 
   x <- reactive({
-        p <- df %>% # base de datos
-          filter(tipo %in% input$tipo) # filtramos los datos
-      })
+    p <- vac %>% # base de datos
+      filter(NOM_MUN %in% input$Mun) # filtramos los datos
+  })
   
-  # Primer output (grafico de barras)
-  output$BarPlot <- renderPlot({
+  output$VacMun <- renderPlot({
     x() %>% 
-      group_by(YEAR, tipo) %>% # agruparlos por año y tipo de explotacion
-      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %>%  # sumar los vacunados totales
-      ggplot() + # call ggplot
-      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
-               position = 'dodge', stat = 'identity') + # especificar posicion
-      theme_minimal() # tema para la figura
-    })
+      group_by(YEAR) %>% 
+      summarise(Vac = sum(VAC_BOV)) %>% 
+      ggplot(aes(x = YEAR, y=Vac)) +
+      geom_bar(position="dodge", stat="identity", fill = "deepskyblue4") +
+      labs(x = "Año", y = "Dosis de vacuna aplicados",
+           title = "Aplicación de vacuna antirrábica")
+  })
 }
 ```
 
@@ -119,8 +109,29 @@ En el laboratorio anterior corrimos nuestra aplicacion usando el boton de *Run A
 # Correr la aplicacion
 shinyApp(ui = ui, server = server)
 ```
+  
+  
+Que otro tipo de graficos podemos hacer? que otros inputs podemos agregar?  
+
+```{r}
+# otras figuras
+```  
+  
+------------------------------
+
 
 # Ejercicio
+
+El paquete STNet contiene otras dos bases de datos que incorporaremos a esta aplicacion, para acceder a ellas usa:
+
+```{r}
+data("vigilancia")
+data("captura")
+```
+
+Examina las bases de datos e incorporalas en la aplicacion que hemos creado. Identifica que variables tienen en comun las bases de datos y con los mismos inputs que ya creamos, crea una figura para cada base de datos. 
+
+
 
 
 

@@ -1,0 +1,395 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Checkpoint Ib
+
+Cambiar app de ejemplo a app usando nuestros datos y figuras
+  - Cargar base de datos
+  - Paneles de la aplicacion
+  - Modificar los inputs
+  - Panel principal
+  - Crear objetos reactivos
+  - Agregar plots
+  - visualizar plots en panel principal
+  - *Ejercicio* agregar una nueva figura 
+
+```{r Ib}
+# Checkpoint 1:
+# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
+# Cargar las librerias
+library(shiny)
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+
+# Cargar los datos del paqeute STNet
+data("vac")
+
+# UI -----------------
+# Definir Interfaz
+ui <- fluidPage(
+    # Titulo de la applicacion
+    titlePanel("Nueva aplicacion"),
+    # Barra lateral con un input
+    sidebarLayout(
+      # Panel para los inputs
+        sidebarPanel(
+          # Input para tipo de granja
+          selectInput(inputId = 'tipo', label = 'Tipo :', 
+                      choices = unique(vac$tipo), multiple = T, 
+                      selected = unique(vac$tipo))
+        ),
+        # Panel para los outputs
+        mainPanel(
+           plotOutput("BarPlot"), # Figura de barras
+           plotOutput('Pie') # Agregar pie chart aqui
+        )
+    )
+)
+
+# Server -------------------
+# Definir el servidor
+server <- function(input, output) {
+  # Objeto reactivo 
+  x <- reactive({
+        p <- vac %>% # base de datos
+          filter(tipo %in% input$tipo) # filtramos los datos
+      })
+  
+  # Primer output (grafico de barras)
+  output$BarPlot <- renderPlot({
+    x() %>% 
+      group_by(YEAR, tipo) %>% # agruparlos por año y tipo de explotacion
+      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %>%  # sumar los vacunados totales
+      ggplot() + # call ggplot
+      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
+               position = 'dodge', stat = 'identity') + # especificar posicion
+      theme_minimal() # tema para la figura
+    })
+  
+  # Segundo output (grafico de pay)
+  output$Pie <- renderPlot({
+    x() %>%
+      group_by(tipo) %>% 
+      summarise(n = sum(VAC_BOV, na.rm = T)) %>% 
+      ggplot() + # call ggplot
+      geom_bar(aes(x = '', y = n, fill = tipo), stat = 'identity') + # to make a pie chart we start it as a bar chart
+      coord_polar('y', start = 0) + # then we change the coordinates 
+      theme_void() # we can add themes to change its appearance
+    })
+}
+
+# Correr la aplicacion
+shinyApp(ui = ui, server = server)
+```
+
+
+```{r Ib Alex}
+# Checkpoint 1:
+# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
+# Cargar las librerias
+library(shiny)
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+library(STNet)
+
+# Cargar los datos del paqeute STNet
+data("vac")
+data('vigilancia')
+
+
+# 
+# captura <- read.csv("../Datos/CAPTURA_HEMATOFAGO.csv") %>%
+#   mutate(YEAR = as.character(YEAR))
+
+# Definir Interfaz
+ui <- fluidPage(
+  # Titulo de la applicacion
+  titlePanel("Laboratorio 1"),
+  # Barra lateral con un input
+    sidebarPanel(
+      # Input para motivo de movimiento
+      selectInput(inputId = "Mun", label = "Municipios:", 
+                  choices = unique(vac$NOM_MUN), multiple = T, 
+                  selected = unique(vac$NOM_MUN)),
+      sliderInput(inputId = 'year', label = 'Año', 
+                  min = min(as.numeric(vac$YEAR)), max = max(as.numeric(vac$YEAR)), 
+                  value = range(vac$YEAR))
+    ),
+    # Outputs
+    mainPanel(
+      plotOutput("VacMun"), # Figura de serie de tiempo
+      plotOutput('VacBoxplot'),
+      plotOutput("VigMun"),
+      plotOutput("CapMun")# Agregar pie chart aqui
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  x <- reactive({
+    p <- vac %>% # base de datos
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
+  })
+  
+  output$VacMun <- renderPlot({
+    x() %>% 
+      group_by(YEAR) %>% 
+      summarise(Vac = sum(VAC_BOV)) %>% 
+      ggplot(aes(x = YEAR, y=Vac)) +
+      geom_bar(position="dodge", stat="identity", fill = "deepskyblue4") +
+      labs(x = "Año", y = "Dosis de vacuna aplicados",
+           title = "Aplicación de vacuna antirrábica")
+  })
+  
+  output$VacBoxplot <- renderPlot({
+    x() %>% 
+      group_by(YEAR, NOM_MUN) %>% 
+      summarise(Hatos = sum(TOTAL_HATOS, na.rm = T),
+                Vacunados = sum(HATOS_VAC, na.rm = T)) %>% 
+      mutate(pVac = Vacunados/Hatos) %>% 
+      ggplot() +
+      geom_boxplot(aes(x = YEAR, y = pVac)) +
+      geom_jitter(aes(x = YEAR, y = pVac), width = 0.1)
+  })
+  
+  y <- reactive({
+    p <- vigilancia %>% # base de datos
+      filter(NOM_MUN %in% input$Mun) %>%
+      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+  })
+
+  output$VigMun <- renderPlot({
+  y() %>%
+      group_by(YEAR, RESULTADO) %>%
+      summarise(N = n()) %>%
+      ggplot(aes(x = YEAR, y=N, fill=RESULTADO)) +
+      geom_bar(position="dodge", stat="identity")+
+      theme(legend.position = "top") +
+      labs(x = "Año", y = "Muestras enviadas al laboratorio",
+           title = "Vigilancia epidemiológica de rabia paralítica en el suroeste del Estado de México")
+  })
+
+  z <- reactive({
+    p <- captura %>% # base de datos
+      filter(NOM_MUN %in% input$Mun) %>%
+      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+  })
+
+  output$CapMun <- renderPlot({
+    z() %>%
+      group_by(YEAR) %>%
+      summarise(N = n()) %>%
+      ggplot(aes(x = YEAR, y=N)) +
+      geom_bar(position="dodge", stat="identity", fill = "red4") +
+      labs(x = "Año", y = "Eventos de captura de murciélago hematófago",
+           title = "Control de población de murciélago hematófago")
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+
+# Checkpoint IIa
+Convertir una app basica a shiny dashboard
+  
+  - Partes de shinyDashboard
+    - Header
+    - sidebar
+    - body
+      - Rows
+      - Boxes
+    - *Ejercicio* agregar un nuevo tab con una nueva base de datos
+
+
+```{r IIa}
+# Checkpoint IIa:
+# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
+# Cargar las librerias
+library(shiny)
+library(shinydashboard) # para crear un dashboard
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+
+# Cargar los datos
+df <- read.csv('../Datos/Processed/Vacunacion.csv')
+
+# Definir Interfaz
+# Encabezado -----------
+header <- dashboardHeader(title = 'Nueva aplicacion')
+# Sidebar -------------
+sidebar <- dashboardSidebar(sidebarMenu(
+  menuItem("Main", tabName = "T1")
+))
+# Body -----------
+body <- dashboardBody(
+  tabItems(
+    # Primer tab
+    tabItem(tabName = 'T1',
+            fluidRow(column(width = 12, 
+                            box(title = 'Inputs', width = 12,
+                                selectInput(inputId = 'tipo', label = 'Tipo :', 
+                                            choices = unique(df$tipo), multiple = T, 
+                                            selected = unique(df$tipo)
+                                            )
+                                ),
+                            box(title = 'Outputs', width = 6,
+                                plotOutput("BarPlot"), # Figura de barras
+                                ),
+                            box(title = 'Pie Chart', width = 6,
+                                plotOutput('Pie') # Pie chart
+                                )
+                            )
+                     )
+            )
+    )
+)
+
+# UI -----------------
+ui <- dashboardPage(header = header, 
+                    sidebar = sidebar, 
+                    body = body
+)
+
+# Server -------------------
+# Definir el servidor
+server <- function(input, output) {
+  # Objeto reactivo 
+  x <- reactive({
+        p <- df %>% # base de datos
+          filter(tipo %in% input$tipo) # filtramos los datos
+      })
+  
+  # Primer output (grafico de barras)
+  output$BarPlot <- renderPlot({
+    x() %>% 
+      group_by(YEAR, tipo) %>% # agruparlos por año y tipo de explotacion
+      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %>%  # sumar los vacunados totales
+      ggplot() + # call ggplot
+      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
+               position = 'dodge', stat = 'identity') + # especificar posicion
+      theme_minimal() # tema para la figura
+    })
+  
+  # Segundo output (grafico de pay)
+  output$Pie <- renderPlot({
+    x() %>%
+      group_by(tipo) %>% 
+      summarise(n = sum(VAC_BOV, na.rm = T)) %>% 
+      ggplot() + # call ggplot
+      geom_bar(aes(x = '', y = n, fill = tipo), stat = 'identity') + # to make a pie chart we start it as a bar chart
+      coord_polar('y', start = 0) + # then we change the coordinates 
+      theme_void() # we can add themes to change its appearance
+    })
+}
+
+# Correr la aplicacion
+shinyApp(ui = ui, server = server)
+```
+
+# Checkpoint IIb: Reactividad avanzada
+
+  - Botones de accion
+  - plot_brush (seleccion de datos en plot)
+  - (introducir mensajes de feedback para el usuario)
+
+```{r IIb}
+
+```
+
+
+# Checkpoint IIIa
+
+Mapas y graficos interactivos
+- Integrar grafico, red y tabla
+
+```{r}
+# Checkpoint IIa:
+# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
+# Cargar las librerias
+library(shiny)
+library(shinydashboard) # para crear un dashboard
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+
+# Cargar los datos
+df <- read.csv('../Datos/Mov.csv') %>% 
+  mutate(week = as.Date(week)) # Formatear la fecha
+
+# Definir Interfaz
+# Encabezado -----------
+header <- dashboardHeader(title = 'Nueva aplicacion')
+# Sidebar -------------
+sidebar <- dashboardSidebar(sidebarMenu(
+  menuItem("Main", tabName = "T1"),
+  menuItem("Movimientos", tabName = "T3")
+))
+# Body -----------
+body <- dashboardBody(
+  tabItems(
+    tabItem(tabName = 'T1',
+            fluidRow(column(width = 12, 
+                            box(title = 'Inputs', width = 12,
+                                selectInput(inputId = 'Motivo', label = 'Motivo :',
+                                            choices = unique(df$MOTIVO), multiple = T,
+                                            selected = unique(df$MOTIVO))),
+                            box(title = 'Outputs', width = 6,
+                                plotOutput("TSp")# Figura de serie de tiempo
+                                ),
+                            box(title = 'Pie Chart', width = 6,
+                                plotOutput('Pie') # Pie chart
+                                )
+                            )
+                     )
+            ),
+    # ------------------------
+    # Tab 3 ------------------
+    tabItem(tabName = 'T3',)
+
+    )
+)
+
+# UI -----------------
+ui <- dashboardPage(header = header, 
+                    sidebar = sidebar, 
+                    body = body
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  x <- reactive({
+        p <- df %>% # base de datos
+          filter(MOTIVO %in% input$Motivo) # filtramos los datos
+      })
+
+    output$TSp <- renderPlot({
+      x() %>% 
+        group_by(week) %>% 
+        summarise(N = n(), CBZ = sum(CBZ, na.rm = T)) %>% 
+        ggplot(aes(x = week)) +
+        geom_line(aes(y = N))
+    })
+    
+    output$Pie <- renderPlot({
+      x() %>% 
+        count(MOTIVO) %>% 
+        ggplot() + # call ggplot
+        geom_bar(aes(x = '', y = n, fill = MOTIVO), stat = 'identity') + # to make a pie chart we start it as a bar chart
+        coord_polar('y', start = 0) + # then we change the coordinates 
+        theme_void() # we can add themes to change its appearance
+    })
+    
+    # ---------------------------
+    # Tab 3 ---------------------
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+
+

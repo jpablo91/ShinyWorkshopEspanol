@@ -12,12 +12,282 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = F, message = F)
 library(dplyr); library(ggplot2); library(ggpubr);library(Pabloverse)
+library(sf)
+library(tidygraph)
+library(ggraph)
 ```
 
 
 ```{r}
-readxl::read_xlsx('../Datos/vacunacion.xlsx')
-readxl::read_xlsx('../Datos/Vigilancia.xlsx')
-read.csv('../Datos/CAPTURA_MHEMATOFAGO.csv')
+d <- list()
+
+cleanChar <- function(x){
+  x <- gsub('√©', 'e', x)
+  x <- gsub('√≥', 'o', x)
+  x <- gsub('√°', 'a', x)
+  return(x)
+}
+
+d[['Movimientos']] <- foreign::read.dbf('../Datos/MovimientosPeninsula.dbf') %>% 
+  mutate(fecha = as.Date(FECHA, format = '%d/%m/%y'),
+         week = lubridate::ceiling_date(fecha, unit = 'week'))  
+
+# Vacunacion --------------
+vac <- read.csv("../Datos/Alex/VACUNACION.csv") %>%
+  mutate(CVE_MUN = paste0(ENTIDAD, MUN)) %>% 
+  select(CVE_MUN, CVE_LOC, NOM_MUN, LONG, LAT, YEAR, TOTAL_HATOS, TOTAL_BOV, VAC_BOV, HATOS_VAC) %>% 
+  mutate(YEAR = as.character(YEAR)) # cambiamos el año a caracter
+
+save(vac, file = '../Datos/rda/vac.rda')
+
+# read.csv('../Datos/Alex/VACUNACION.csv') %>% 
+#   mutate(YEAR = as.character(YEAR),
+#          Nbov = ifelse(VAC_BOV > TOTAL_BOV, VAC_BOV, TOTAL_BOV),
+#          tipo = cut(Nbov,
+#                     breaks = c(0, 50, 500, 10e3), 
+#                     include.lowest = T,
+#                     labels = c('traspatio', 'mediana', 'comercial')),
+#          CVE_MUN = paste0(ENTIDAD, MUN)) %>% 
+#   select(NOM_MUN, CVE_LOC, NOM_LOC, CVE_MUN, tipo, TOTAL_HATOS, TOTAL_BOV, YEAR, VAC_BOV, HATOS_VAC, LONG, LAT) %>% 
+#   write.csv('../Datos/Processed//Vacunacion.csv', row.names = F)
+# 
+# d[['Vacunacion']] <- read.csv('../Datos/Processed/Vacunacion.csv')
+
+# Vigilancia ---------------
+vigilancia <- read.csv("../Datos/Alex/VIGILANCIA.csv") %>%
+  mutate(YEAR = as.character(YEAR)) %>% 
+  # select(NOM_MUN, YEAR) %>% 
+  data.frame()
+
+save(vigilancia, file = '../Datos/rda/vigilancia.rda', version = 2)
+
+d[['vigilancia']] <- readxl::read_xlsx('../Datos/Vigilancia.xlsx') %>%
+  mutate(MUN = cleanChar(MUN),
+       fecha = as.Date(FECHA_DX, format = '%Y-%m-%d'))
+
+# Captura ---------------------
+captura <- read.csv("../Datos/CAPTURA_HEMATOFAGO.csv") %>%
+  mutate(YEAR = as.character(YEAR)) %>% 
+  data.frame()
+
+save(captura, file = '../Datos/rda/captura.rda', version = 2)
+
+d[['captura']] <- read.csv('../Datos/CAPTURA_MHEMATOFAGO.csv') %>% 
+  mutate(fecha = as.Date(FECHA_OP, format = '%d/%m/%y')) 
+
+d[['Map']] <- st_read('../Datos/Spatial/mapas/00mun.shp') %>% 
+  mutate(ID = paste0(CVE_ENT, CVE_MUN)) %>% 
+  rmapshaper::ms_simplify()
+
+d$Map %>% data.frame()
+
+devtools::install_github('jpablo91/STNet')
 ```
 
+
+
+## Movimientos
+
+
+
+*Note:* Sample database to reduce number of records
+
+```{r}
+# set.seed(1)
+# d$Movimientos %>%
+#   select(ID_ORIGEN, ID_DESTINO, EDO_ORIGEN, EDO_DESTIN, CBZ, week, MOTIVO, MUN_ORIGEN, MUN_DESTIN) %>%
+#   mutate(weekn = as.numeric(format(week, '%V'))) %>% 
+#   slice(sample(1:n(), size = 5000)) %>%
+#   write.csv('../Datos/Mov.csv', row.names = F)
+
+d$Movimientos <- read.csv('../Datos/Mov.csv') %>% 
+  mutate(week = as.Date(week)) # Formatear la fecha
+  
+
+input <- list(fechas = c('2017-01-02', '2019-12-31'),
+              nMov = 15,
+              motivo = c('ABASTO O RASTRO', 'ENGORDA', 'ESPECTÁCULO', 'FERIA Y EXPOSICIÓN', 'PIE DE CRIA O REPRODUCCIÓN'),
+              tipo = c('traspatio', 'mediana', 'comercial'))
+
+##### Que figuras podemos sacar de aqui?
+# Time series -------------
+d$Movimientos %>% # base de datos
+  filter(MOTIVO %in% input$motivo, # filtramos los datos
+         week > input$fechas[1], week < input$fechas[2]) %>% 
+  group_by(week) %>% 
+  summarise(N = n(), CBZ = sum(CBZ, na.rm = T)) %>% 
+  ggplot(aes(x = week)) +
+  geom_line(aes(y = N))
+
+# Pie chart ----------------
+d$Movimientos %>% 
+  count(MOTIVO) %>% 
+  ggplot() + # call ggplot
+  geom_bar(aes(x = '', y = n, fill = MOTIVO), stat = 'identity') + # to make a pie chart we start it as a bar chart
+  coord_polar('y', start = 0) + # then we change the coordinates 
+  theme_void() # we can add themes to change its appearance
+
+# Matriz de movimientos (estado x estado) --------------
+# Agregar slider para filtrar por numero de movimientos (relevancia)
+d$Movimientos %>% 
+  count(EDO_ORIGEN, EDO_DESTIN) %>% 
+  filter( n > input$nMov) %>% 
+  ggplot() +
+  geom_tile(aes(x = EDO_ORIGEN, y = EDO_DESTIN, fill = n))
+
+d$Movimientos %>% 
+  count(MUN_ORIGEN, MUN_DESTIN) %>% 
+  filter( n > 50) %>% 
+  ggplot() +
+  geom_tile(aes(x = MUN_ORIGEN, y = MUN_DESTIN, fill = n))
+
+# Matriz temporal (Estado x Semana) ----------------
+d$Movimientos %>%
+  count(EDO_ORIGEN, weekn) %>%
+  ggplot() +
+  geom_tile(aes(x = weekn, y = EDO_ORIGEN, fill = n)) +
+  scale_fill_gradient(low = 'black', high = 'red') +
+  theme_minimal()
+
+d$Movimientos %>%
+  count(EDO_DESTIN, weekn) %>%
+  ggplot() +
+  geom_tile(aes(x = weekn, y = EDO_DESTIN, fill = n)) +
+  scale_fill_gradient(low = 'black', high = 'green') +
+  theme_minimal()
+
+# Mapa Coropletico de In Outs agregado por municipio -----------------
+## Out
+x <- d$Movimientos %>% 
+  count(ID_ORIGEN) %>% 
+  rename(Out = n)
+
+d$Map %>% left_join(x, by = c('CVEGEO' = 'ID_ORIGEN')) %>%
+  ggplot() +
+  geom_sf(aes(fill = Out), col = NA) +
+  theme_void()
+
+## In
+x <- d$Movimientos %>% 
+  count(ID_DESTINO) %>% 
+  rename(In = n)
+
+d$Map %>% left_join(x, by = c('ID' = 'ID_DESTINO')) %>% 
+  ggplot() +
+  geom_sf(aes(fill = In), col = NA) +
+  theme_void()
+
+# Red no-espacial ----------------
+d$Movimientos %>% 
+  mutate(N = 1) %>% 
+  group_by(ID_ORIGEN, ID_DESTINO, MOTIVO) %>% 
+  summarise_at(c('N', 'CBZ'), .funs = ~sum(., na.rm = T)) %>% 
+  tidygraph::tbl_graph(edges = ., directed = T) %>% 
+  ggraph(., layout = 'kk') +
+  geom_edge_fan(aes(alpha = N)) +
+  geom_node_point()
+
+
+# Red espacial -----------------
+plot_mapbox() %>%
+  add_segments(
+    data = group_by(d$Movimientos, ID_ORIGEN, ID_DESTINO),
+    x = ~O_Long, xend = ~D_Long,
+    y = ~O_Lat, yend = ~D_Lat,
+    alpha = 0.1, size = I(1), hoverinfo = "none"
+  )   %>%
+  add_markers(data = node,
+    x = ~long, y = ~lat, size = ~indegree, text = ~id,
+    split = ~farm_type,
+    hoverinfo = "text"
+  ) %>%
+  layout(
+    mapbox = list(
+      style = 'open-street-map',
+      zoom = 6,
+      center = list(lat = 42, lon = -93)
+    ))
+# Tabla de movimientos ----------------
+```
+
+
+```{r}
+d3heatmap(ORIGEN, Rowv=NA, Colv=NA,
+          distfun = function(x){dist(x, method = "euclidian")},
+          hclustfun = function(x){hclust(x, method = "ward.D")},
+          scale = "column", dendrogram = "row", key = TRUE, show_grid = TRUE, key.location = 'br',
+          na.value = 0, na.color = "white", col=brewer.pal(9,"Reds"),
+          main = "Perfil temporal de movilización de ganado", xlab = "Número de semana",
+          cexRow = 0.7, cexCol = 0.7)
+```
+
+
+## Vacunacion
+```{r}
+data('vac')
+vac
+```
+
+```{r}
+input <- list(year = c(2007:2012))
+# Time series -------------
+vac %>% # base de datos
+  group_by(YEAR) %>% 
+      summarise(Vac = sum(VAC_BOV)) %>% 
+      ggplot(aes(x = YEAR, y=Vac)) +
+      geom_bar(position="dodge", stat="identity", fill = "deepskyblue4") +
+      labs(x = "Año", y = "Dosis de vacuna aplicados",
+           title = "Aplicación de vacuna antirrábica")
+
+vac %>% 
+  filter(YEAR %in% input$year) %>% 
+  group_by(YEAR, NOM_MUN) %>% 
+  summarise(Hatos = sum(TOTAL_HATOS, na.rm = T),
+            Vacunados = sum(HATOS_VAC, na.rm = T)) %>% 
+  mutate(pVac = Vacunados/Hatos) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = YEAR, y = pVac)) +
+  geom_jitter(aes(x = YEAR, y = pVac), width = 0.1)
+
+# Make the plot
+vac %>% 
+  ggplot() + 
+  # Make the bubbles
+  geom_polygon(aes(x, y, group = id, fill=as.factor(id)), colour = "black", alpha = 0.6) +
+  # Add text in the center of each bubble + control its size
+  geom_text(data = data, aes(x, y, size=value, label = group)) +
+  scale_size_continuous(range = c(1,4)) +
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+
+# Mapa de cobertura -----------------
+d$Map %>% data.frame(); 
+
+count(d$Vacunacion, NOM_MUN)
+
+vc <- d$Vacunacion %>% 
+  group_by(LOC) %>% 
+  summarise_at(c('TOTAL_HATOS', 'TOTAL_BOV', 'VACUNADOS_2007', 'HATOSVAC_2007'), .funs = ~sum(., na.rm = T)) %>% 
+  mutate(p_vac2007 = HATOSVAC_2007/TOTAL_HATOS)
+  
+
+d$Map %>% left_join(vc, by = c('CVEGEO' = 'LOC')) %>% 
+  filter(!is.na(p_vac2007)) %>% 
+  ggplot() +
+  geom_sf(aes(fill = p_vac2007), col = NA) +
+  theme_void()
+```
+
+
+## Captura
+
+```{r}
+# Mapa de capturas --------
+d$captura
+# Combinadoc on vigilancia Mapa de prevalencia -------------
+
+```
+
+  

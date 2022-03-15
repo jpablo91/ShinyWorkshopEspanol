@@ -419,9 +419,10 @@ div.tocify {
 <p><img src="img/I_a.png" style="width:100%" align="center"></p>
 <div id="proyectos" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Proyectos</h2>
-<p>Rstudio es mas que un editor de codigo para R, Rstudio tambien puede ser usado para administrar tus proyectos. Esto tiene varias ventajas por que te ayuda a contener tu trabajo de manera organizada en un directorio con todos los archivos y objetos que crees en tu entorno (environment). Cuando inicias Rstudio por primera vez, se inicia en un projecto vacio, para crear un proyecto haz click en el menu superior derecho de la opcion de los proyectos y selecciona <em>New Project…</em></p>
+<p>Rstudio es mas que un editor de codigo para R, Rstudio tambien puede ser usado para administrar tus proyectos. Esto tiene varias ventajas por que te ayuda a contener tu trabajo de manera organizada en un directorio con todos los archivos y objetos que crees en tu entorno (environment).<br />
+Cuando inicias Rstudio por primera vez, se inicia en un projecto vacio, para crear un proyecto haz click en el menu superior derecho de la opcion de los proyectos y selecciona <em>New Project…</em></p>
 <p><img src="img/Ia_01-NewProj.png" style="width:50%" align="center"></p>
-<p>Despues te dara la opcion de crear un nuevo proyecto en un nuevo directorio, en un directorio existente o version control. Para hoy seleccionaremos la opcion de crear un nuevo proyecto en un nuevo directorio (<em>New directory</em>)</p>
+<p>Despues te dara la opcion de crear un nuevo proyecto en un nuevo directorio, en un directorio existente o control de version. Para hoy seleccionaremos la opcion de crear un nuevo proyecto en un nuevo directorio (<em>New directory</em>)</p>
 <p><img src="img/Ia_02-NewProj.png" style="width:30%" align="center"></p>
 <p>Posteriormente seleccionamos la opcion de <em>New project</em>.</p>
 <p><img src="img/Ia_03-NewProj.png" style="width:30%" align="center"></p>
@@ -433,7 +434,17 @@ div.tocify {
 </div>
 <div id="creando-la-primera-aplicacion" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Creando la primera aplicacion</h1>
-<p>Hay multiples maneras de inciar una shiny app, en general la aplicacion shiny consta de 2 partes: una interfaz de usuario (ui) y un servidor (server). Primero hay que asegurarnos de tener instalada la libreria de shiny.</p>
+<p>Hay multiples maneras de inciar una shiny app, en general la aplicacion shiny consta de 4 partes:</p>
+<ul>
+<li>Cargar paqueterias, datos y funciones.<br />
+</li>
+<li>Interfaz de usuario (UI).<br />
+</li>
+<li>Servidor (server).<br />
+</li>
+<li>Llamar la funcion <code>shinyApp()</code></li>
+</ul>
+<p>Primero vamos a asegurarnos de tener instalada la libreria de shiny.</p>
 <pre class="r"><code># Instalar la libreria
 install.packages(&quot;shiny&quot;)</code></pre>
 <p>Una vez teniendo instalada la libreria podemos empezar. Para crear tu primera aplicacion vamos a usar la interfaz de usuario de Rstudio. Para esto ve al menu de nuevo archivo, y selecciona <em>Shiny Web App…</em> de la lista</p>
