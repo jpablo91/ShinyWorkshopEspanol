@@ -94,7 +94,7 @@ Todas las sesiones seran de 3 a 6 pm
      - [Ejercicio 1: Abrir un archivo de Shiny app en R studio](Lab_Ia.html)
      - [Inputs, outputs y server](Ib_InsOuts.html)            
      - Introduccion a base de datos
-     - [Ejercicio 2:](Lab_Ib.html)
+     - [Ejercicio 2: Inputs y Outputs](Lab_Ib.html)
      <!-- - Checkpoint -  --> 
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
      <!-- - Recapitulación (15 minutos) -->
