@@ -62,12 +62,15 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Documentacion de ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
   - [Shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
   
-<!-- https://www.kaggle.com/datasets -->
-<!-- http://www.mgc.ac.cn/cgi-bin/DBatVir/main.cgi?func=map -->
-<!-- https://wahis.oie.int/#/home -->
-<!-- https://datos.cdmx.gob.mx -->
-<!-- https://datamexico.org -->
-<!-- https://www.inegi.org.mx/app/mapa/espacioydatos/  -->
+Algunas fuentes de datos para el proyecto
+  
+  - https://www.kaggle.com/datasets
+  - http://www.mgc.ac.cn/cgi-bin/DBatVir/main.cgi?func=map
+  - https://wahis.oie.int/#/home
+  - https://datos.cdmx.gob.mx
+  - https://datamexico.org
+  - https://www.inegi.org.mx/app/mapa/espacioydatos/
+  
 
 
 
