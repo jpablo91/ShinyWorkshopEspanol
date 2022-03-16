@@ -60,7 +60,7 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Shiny tags glossary](https://shiny.rstudio.com/articles/tag-glossary.html), Differentes shiny tags que puedes usar para tu interfaz de usuario.  
   - [Pagina de documentacion de la libreria plotly](https://plotly.com/r/)
   - [Documentacion de ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
-  
+  - [Shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
   
 <!-- https://www.kaggle.com/datasets -->
 <!-- http://www.mgc.ac.cn/cgi-bin/DBatVir/main.cgi?func=map -->
@@ -84,6 +84,7 @@ Todas las sesiones seran de 3 a 6 pm
 <!-- La idea de los laboratorios es que se expliquen por si mismos, por si los quieren revisar mas adelante. EN este curso introduciremos los laboratorios dando una breve explicacion, a la mitad del tiempo haremos una encuesta para ver el avance y revisar dudas, y los ultimos 5 minutos hablaremos de las conclusiones para cada laboratorio -->
 
    - **Día 0 (14 de Marzo, 2022):** Sesión de instalación de R studio, github y material pre-curso (opcional). Tiempo: 2 horas.
+   
    - **Dia 1 (15 de Marzo 2022):** Como construir una Shiny app.
      - [Introducción](I0_Intro.html)
      - [Arquitectura y estructura de la app](Ia_Arquitectura.html)
@@ -91,13 +92,14 @@ Todas las sesiones seran de 3 a 6 pm
      - [Inputs, outputs y server](Ib_InsOuts.html)            
      - Introduccion a base de datos
      - [Ejercicio 2: Inputs y Outputs](Lab_Ib.html)
-     <!-- - Checkpoint -  --> 
+     <!-- - Checkpoint -  -->   
+     
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
      - Recapitulación
      - [Introduccion a shiny dashboard](IIa_ShinyDash.html)
      - [Lab IIa](Lab_IIa.html)
      - [Reactividad](IIb_Reactividad.html)
-     - Lab IIb (agregar botones y mensajes)
+     - Lab IIb
      
      <!-- - Configurar la interfaz del usuario (45 minutos) -->
      <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->
