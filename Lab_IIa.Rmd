@@ -13,44 +13,74 @@ knitr::opts_chunk$set(eval = F)
 
 # Introduccion
 
-Objetivo:
-En este laboratorio vamos a introducir shinydashboard. En este laboratorio seguiremos construyendo en el archivo que creamos para una aplicacion basica en el [laboratorio Ib](Lab_Ib.html), si no terminaste el laboratorio, puedes descargar el checkpoint en [este link]().  
+Objetivo:  
+En este laboratorio vamos a introducir shinydashboard. Seguiremos construyendo en el archivo que creamos para una aplicacion basica en el [laboratorio Ib](Lab_Ib.html), si no terminaste el laboratorio, puedes descargar el checkpoint en [este link](https://ucdavis.box.com/s/gtr5c4qotr787htvessx4fwsjq3rl4f6).  Los objetivos de este laboratorio son:  
+  
+  - Entender los componentes basicos de shinydashboard.
+  - Mejorar la interfaz de usuario y organizacion de nuestra aplicacion.  
 
 ------------------------------
 
+Primero vamos a segurarnos de que tengamos las librerias que usaremos hoy cargadas, si estas empezando a partir del laboratorio anterior, solo agregaremos el paquete `shinydashboard` a la lista
 
-
-```{r}
+```{r cargar librerias}
+# Cargar las librerias
 library(shiny)
-library(shinydashboard) # para crear un dashboard
 library(dplyr) # Para manipulacion de datos
 library(ggplot2) # Para las figuras
-
-# Cargar los datos
-df <- read.csv('../Datos/Processed/Vacunacion.csv')
+library(shinydashboard) # para crear un dashboard
+library(STNet)
 ```
 
 
+Ahora nos aseguramos de que tambien tengamos cargados los datos que usaremos hoy. Asegurate de que hayas cargado previamente el paquete STNet, ya que los datos estan contenidos en esta libreria.  
 
-```{r}
-# Checkpoint IIa:
-# En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
-# Cargar las librerias
-library(shiny)
-library(shinydashboard) # para crear un dashboard
-library(dplyr) # Para manipulacion de datos
-library(ggplot2) # Para las figuras
+```{r Cargar datos}
+# Cargar los datos del paquete STNet
+data("vac") # Datos de vacunacion
+data("vigilancia") # datos de vigilancia
+data("captura") # Datos de captura
+```
 
-# Cargar los datos
-df <- read.csv('../Datos/Processed/Vacunacion.csv')
+# Definiendo la interfaz (ui)
 
+En nuestro laboratorio pasado desarrollamos una aplicacion que inncluye 3 bases de datos, dos inputs, y 4 figuras. En esta aplicacion no vamos a agregar ninguna base de datos ni figuras, pero vamos a organizar nuestra aplicacion para hacerla mas facil de navegar y presentable.  
+
+## Encabezado (Header)
+
+El encabezado contiene el titulo de nuestra aplicacion.  
+Vamos a crear un nuevo objeto que contenga esta informacion, para esto usamos la funcion `dashboardHeader()`  
+
+```{r definiendo header}
 # Definir Interfaz
 # Encabezado -----------
 header <- dashboardHeader(title = 'Nueva aplicacion')
+```
+
+
+## Menu lateral (Sidebar)
+
+El menu lateral nos permite agregar multiples ventanas o tabs para nuestra aplicacion y poder distribuir nuestros material. Para crear el sidebar usamos la funcion `dashboardSidebar()`. Dentro de esta funcion podemos poner texto que nos ayude a describir nuestra aplicacion.  
+En esta seccion tambien especificaremos nuestros tabs, para esto usamos la funcion `menuItem()`, en la que debemos especificar el nombre del tab para mostrar y el identificador que usaremos para la app.
+
+```{r definiendo sidebar}
 # Sidebar -------------
-sidebar <- dashboardSidebar(sidebarMenu(
-  menuItem("Main", tabName = "T1")
-))
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    'Este es un menu para navegar la app', # Texto que aparecera en nuestra app
+    menuItem("Main", tabName = "T1") # Primer tab de nuestra app
+    )
+  )
+
+```
+
+En esta aplicacion usaremos el identificador 'T1' para nuestro primer tab, y queremos mostrar comom nombre 'Main'.  
+
+## Cuerpo de la aplicacion (Body)
+
+Esta es la parte principal de la app, aqui incluiremos nuestros inputs y outputs 
+
+```{r definiendo body}
 # Body -----------
 body <- dashboardBody(
   tabItems(
@@ -58,62 +88,123 @@ body <- dashboardBody(
     tabItem(tabName = 'T1',
             fluidRow(column(width = 12, 
                             box(title = 'Inputs', width = 12,
-                                selectInput(inputId = 'tipo', label = 'Tipo :', 
-                                            choices = unique(df$tipo), multiple = T, 
-                                            selected = unique(df$tipo)
-                                            )
+                                selectInput(inputId = "Mun", label = "Municipios:", 
+                                            choices = unique(vac$NOM_MUN), multiple = T, 
+                                            selected = unique(vac$NOM_MUN)),
+                                sliderInput(inputId = 'year', label = 'Año', 
+                                            min = min(as.numeric(vac$YEAR)), max = max(as.numeric(vac$YEAR)), 
+                                            value = range(vac$YEAR))
                                 ),
-                            box(title = 'Outputs', width = 6,
-                                plotOutput("BarPlot"), # Figura de barras
+                            box(title = 'Vacunacion', width = 6,
+                                plotOutput("VacMun"), # Figura de serie de tiempo
                                 ),
-                            box(title = 'Pie Chart', width = 6,
-                                plotOutput('Pie') # Pie chart
+                            box(title = 'Vacunacion boxplot', width = 6,
+                                plotOutput("VacBoxplot"), # Figura de serie de tiempo
+                                ),
+                            box(title = 'Vigilancia', width = 6,
+                                plotOutput("VigMun"), # Figura de serie de tiempo
+                                ),
+                            box(title = 'Captura', width = 6,
+                                plotOutput("CapMun"), # Figura de serie de tiempo
                                 )
                             )
                      )
             )
     )
 )
+```
 
-# UI -----------------
-ui <- dashboardPage(header = header, 
-                    sidebar = sidebar, 
-                    body = body
-)
+## Integrar los componentes de la interfaz de usuario
 
-# Server -------------------
-# Definir el servidor
+Finalmente integraremos todos los componentes y guardaremos en el objeto ui:
+
+```{r}
+ui <- dashboardPage(header = header, sidebar = sidebar, body = body)
+```
+
+# Servidor
+El resto de nuestra aplicacion se queda igual, ya que solo estamos cambiando la interfaz de usuario.  
+Vamos a correr la aplicacion para ver nuestro resultado.
+
+```{r}
+# Define server logic required to draw a histogram
 server <- function(input, output) {
-  # Objeto reactivo 
   x <- reactive({
-        p <- df %>% # base de datos
-          filter(tipo %in% input$tipo) # filtramos los datos
-      })
+    p <- vac %>% # base de datos
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
+  })
   
-  # Primer output (grafico de barras)
-  output$BarPlot <- renderPlot({
+  output$VacMun <- renderPlot({
     x() %>% 
-      group_by(YEAR, tipo) %>% # agruparlos por año y tipo de explotacion
-      summarise(VAC_BOV = sum(VAC_BOV, na.rm = T)) %>%  # sumar los vacunados totales
-      ggplot() + # call ggplot
-      geom_bar(aes(fill = tipo, y = VAC_BOV, x = factor(YEAR)), # variables para el grafico
-               position = 'dodge', stat = 'identity') + # especificar posicion
-      theme_minimal() # tema para la figura
-    })
+      group_by(YEAR) %>% 
+      summarise(Vac = sum(VAC_BOV)) %>% 
+      ggplot(aes(x = YEAR, y=Vac)) +
+      geom_bar(position="dodge", stat="identity", fill = "deepskyblue4") +
+      labs(x = "Año", y = "Dosis de vacuna aplicados",
+           title = "Aplicación de vacuna antirrábica")
+  })
   
-  # Segundo output (grafico de pay)
-  output$Pie <- renderPlot({
-    x() %>%
-      group_by(tipo) %>% 
-      summarise(n = sum(VAC_BOV, na.rm = T)) %>% 
-      ggplot() + # call ggplot
-      geom_bar(aes(x = '', y = n, fill = tipo), stat = 'identity') + # to make a pie chart we start it as a bar chart
-      coord_polar('y', start = 0) + # then we change the coordinates 
-      theme_void() # we can add themes to change its appearance
-    })
+  output$VacBoxplot <- renderPlot({
+    x() %>% 
+      group_by(YEAR, NOM_MUN) %>% 
+      summarise(Hatos = sum(TOTAL_HATOS, na.rm = T),
+                Vacunados = sum(HATOS_VAC, na.rm = T)) %>% 
+      mutate(pVac = Vacunados/Hatos) %>% 
+      ggplot() +
+      geom_boxplot(aes(x = YEAR, y = pVac)) +
+      geom_jitter(aes(x = YEAR, y = pVac), width = 0.1)
+  })
+  
+  y <- reactive({
+    p <- vigilancia %>% # base de datos
+      filter(NOM_MUN %in% input$Mun) %>%
+      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+  })
+  
+  output$VigMun <- renderPlot({
+    y() %>%
+      group_by(YEAR, RESULTADO) %>%
+      summarise(N = n()) %>%
+      ggplot(aes(x = YEAR, y=N, fill=RESULTADO)) +
+      geom_bar(position="dodge", stat="identity")+
+      theme(legend.position = "top") +
+      labs(x = "Año", y = "Muestras enviadas al laboratorio",
+           title = "Vigilancia epidemiológica de rabia paralítica en el suroeste del Estado de México")
+  })
+  
+  z <- reactive({
+    p <- captura %>% # base de datos
+      filter(NOM_MUN %in% input$Mun) %>%
+      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+  })
+  
+  output$CapMun <- renderPlot({
+    z() %>%
+      group_by(YEAR) %>%
+      summarise(N = n()) %>%
+      ggplot(aes(x = YEAR, y=N)) +
+      geom_bar(position="dodge", stat="identity", fill = "red4") +
+      labs(x = "Año", y = "Eventos de captura de murciélago hematófago",
+           title = "Control de población de murciélago hematófago")
+  })
 }
 
-# Correr la aplicacion
+# Run the application 
 shinyApp(ui = ui, server = server)
 ```
+
+# Ejercico
+
+Una manera de organizar nuestra aplicacion es dividiendo la informacion en multiples tabs, vamos a crear un tab para cada base de datos y moveremos nuestros inputs al sidebar para poder cambiarlos desde cualquier parte de la applicacion.  
+
+```{r}
+# Ejercicio
+```
+
+  
+Ahora intenta crear un nuevo tab para la tercera base de datos
+  
+  
+
 
