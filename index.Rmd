@@ -50,20 +50,7 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Intro to R](0b_Intro_to_R.html)  
   - [Intro to Spatial data](0c_Spatial_intro.html)
   
-## Paqueterias 
-Durante el curso usaremos varias paqueterias de R, generalmente no tardan mucho en instalarse, pero si es posible, trata de instalarlas con anticipacion para no perder mucho tiempo del curso en las instalaciones. Algunas de las paqueterias que usaremos son:    
-  
-  - shiny
-  - tidyverse
-  - lubridate
-  - ggplot2
-  - ggraph
-  - plotly
-  - ggpubr
-  - sf
-  - DT
-  - tidygraph
-  
+
 # Otros links:
 
   - [R graph gallery](https://www.r-graph-gallery.com), Consulta diferentes tipos de figuras con ejemplos en R.  
@@ -73,6 +60,15 @@ Durante el curso usaremos varias paqueterias de R, generalmente no tardan mucho 
   - [Shiny tags glossary](https://shiny.rstudio.com/articles/tag-glossary.html), Differentes shiny tags que puedes usar para tu interfaz de usuario.  
   - [Pagina de documentacion de la libreria plotly](https://plotly.com/r/)
   - [Documentacion de ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
+  
+  
+<!-- https://www.kaggle.com/datasets -->
+<!-- http://www.mgc.ac.cn/cgi-bin/DBatVir/main.cgi?func=map -->
+<!-- https://wahis.oie.int/#/home -->
+<!-- https://datos.cdmx.gob.mx -->
+<!-- https://datamexico.org -->
+<!-- https://www.inegi.org.mx/app/mapa/espacioydatos/  -->
+
 
 
 # Horario 
@@ -97,7 +93,12 @@ Todas las sesiones seran de 3 a 6 pm
      - [Ejercicio 2: Inputs y Outputs](Lab_Ib.html)
      <!-- - Checkpoint -  --> 
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
-     <!-- - Recapitulación (15 minutos) -->
+     - Recapitulación
+     - Introduccion a shiny dashboard
+     - Lab IIa
+     - Reactividad
+     - Lab IIb (agregar botones y mensajes)
+     
      <!-- - Configurar la interfaz del usuario (45 minutos) -->
      <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->
      <!-- - Reactividad basica (30 minutos) -->

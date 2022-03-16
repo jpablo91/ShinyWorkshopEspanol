@@ -129,6 +129,8 @@ data("vigilancia")
 data("captura")
 ```
 
+
+
 Examina las bases de datos e incorporalas en la aplicacion que hemos creado. Identifica que variables tienen en comun las bases de datos y con los mismos inputs que ya creamos, crea una figura para cada base de datos. 
 
 
