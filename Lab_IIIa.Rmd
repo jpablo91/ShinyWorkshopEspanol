@@ -37,12 +37,10 @@ edges <- mov %>%
     distinct()
 
 # Necesitamos otra tabla que solo tenga las granjas (nodos)
-nodes <- list( # primero creamos una lista con dos tablas
-  n1 = distinct(edges, ID = ORIGEN, LAT = LAT_O, LONG = LONG_O), # para origenes
-  n2 = distinct(edges, ID = DESTINO, LAT = LAT_D, LONG = LONG_D) # para destinos
-  ) %>% 
-  do.call(rbind, .) %>%  # esta funcion une las dos data.frames de la lista
-  distinct() 
+nodes <- list(n1 = select(edges, ID = ORIGEN, LAT = LAT_O, LONG = LONG_O),
+              n2 = select(edges, ID = DESTINO, LAT = LAT_D, LONG = LONG_D)) %>% 
+  do.call(rbind, .) %>% 
+  count(ID, LAT, LONG)
 ```
 
 
@@ -67,7 +65,7 @@ Sys.setenv('MAPBOX_TOKEN' = 'pega aqui tu token')
 ## Agregar Nodos
 ```{r}
 plot_mapbox() %>% 
-  add_markers(data = nodes, type = 'scatter',
+  add_markers(data = nodes, type = 'scatter', size = ~n,
               x = ~LONG, y = ~LAT, color = I('red'))
 ```
 
@@ -92,7 +90,7 @@ plot_mapbox() %>%
     x = ~LONG_O, xend = ~LONG_D,
     y = ~LAT_O, yend = ~LAT_D
   ) %>% 
-  add_markers(data = nodes, type = 'scatter',
+  add_markers(data = nodes, type = 'scatter', size = ~n,
               x = ~LONG, y = ~LAT, color = I('red')) %>% 
   layout(mapbox = list(style = 'open-street-map',
                        center = list(lon=mean(nodes$LONG), lat=mean(nodes$LAT)),
@@ -172,11 +170,11 @@ edges <- eventReactive(input$filter,{
   })
 
 nodes <- list(
-  n1 = distinct(edges, ID = ORIGEN, LAT = LAT_O, LONG = LONG_O),
-  n2 = distinct(edges, ID = DESTINO, LAT = LAT_D, LONG = LONG_D)
+  n1 = select(edges(), ID = ORIGEN, LAT = LAT_O, LONG = LONG_O),
+  n2 = select(edges(), ID = DESTINO, LAT = LAT_D, LONG = LONG_D)
   ) %>% 
   do.call(rbind, .) %>% 
-  distinct() 
+  count(ID, LAT, LONG)
 ```
 
 Y finalmente nuestro output
