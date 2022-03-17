@@ -61,6 +61,7 @@ Hay 3 tutoriales que debes completar antes de empezar el curso, asegurate que te
   - [Pagina de documentacion de la libreria plotly](https://plotly.com/r/)
   - [Documentacion de ShinyDash](https://rstudio.github.io/shinydashboard/structure.html)
   - [Shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+  - [Otras paqueterias para graficos interactivos](https://www.htmlwidgets.org/showcase_leaflet.html)
   
 Algunas fuentes de datos para el proyecto
   
@@ -88,7 +89,7 @@ Todas las sesiones seran de 3 a 6 pm
 
    - **Día 0 (14 de Marzo, 2022):** Sesión de instalación de R studio, github y material pre-curso (opcional). Tiempo: 2 horas.
    
-   - **Dia 1 (15 de Marzo 2022):** Como construir una Shiny app.
+   - **Dia 1 (15 de Marzo 2022):** [Como construir una Shiny app](https://youtu.be/eyINLmk5gs0).
      - [Introducción](I0_Intro.html)
      - [Arquitectura y estructura de la app](Ia_Arquitectura.html)
      - [Ejercicio 1: Abrir un archivo de Shiny app en R studio](Lab_Ia.html)
@@ -97,7 +98,7 @@ Todas las sesiones seran de 3 a 6 pm
      - [Ejercicio 2: Inputs y Outputs](Lab_Ib.html)
      <!-- - Checkpoint -  -->   
      
-   - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
+   - **Dia 2 (16 de Marzo 2022):** [Configuración de tu entorno de desarrollo](https://youtu.be/DyiQehyZ_fs)
      - Recapitulación
      - [Introduccion a shiny dashboard](IIa_ShinyDash.html)
      - [Lab IIa: Shinydashboard](Lab_IIa.html)
