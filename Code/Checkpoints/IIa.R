@@ -1,38 +1,77 @@
-# Checkpoint 1:
+# Checkpoint IIa:
 # En esta aplicacion modificamos la plantilla inicial para cargar nuestros datos y hacer dos figuras
 # Cargar las librerias
 library(shiny)
 library(dplyr) # Para manipulacion de datos
 library(ggplot2) # Para las figuras
+library(shinydashboard) # para crear un dashboard
 library(STNet)
 
-# Cargar los datos del paqeute STNet
-data("vac")
-data("vigilancia")
-data("captura")
+# Cargar los datos del paquete STNet
+data("vac") # Datos de vacunacion
+data("vigilancia") # datos de vigilancia
+data("captura") # Datos de captura
 
 # Definir Interfaz
-ui <- fluidPage(
-  # Titulo de la applicacion
-  titlePanel("Laboratorio 1"),
-  # Barra lateral con un input
-  sidebarPanel(
-    # Input para motivo de movimiento
+# Encabezado -----------
+header <- dashboardHeader(title = 'Nueva aplicacion')
+# Sidebar -------------
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    'Este es un menu para navegar la app', # Texto que aparecera en nuestra app
+    menuItem("Vacunacion", tabName = "T1"), # Primer tab de nuestra app
+    menuItem("Vigilancia", tabName = "T2"),
+    menuItem("Capturas", tabName = "T3"),
+    br(),
     selectInput(inputId = "Mun", label = "Municipios:", 
                 choices = unique(vac$NOM_MUN), multiple = T, 
                 selected = unique(vac$NOM_MUN)),
     sliderInput(inputId = 'year', label = 'Año', 
                 min = min(as.numeric(vac$YEAR)), max = max(as.numeric(vac$YEAR)), 
                 value = range(vac$YEAR))
-  ),
-  # Outputs
-  mainPanel(
-    plotOutput("VacMun"), # Figura de serie de tiempo
-    plotOutput('VacBoxplot'),
-    plotOutput("VigMun"),
-    plotOutput("CapMun")# Agregar pie chart aqui
   )
 )
+
+# Body -----------
+body <- dashboardBody(
+  tabItems(
+    # Primer tab
+    tabItem(tabName = 'T1',
+            fluidRow(
+              column(width = 12, 
+                     box(title = 'Vacunacion', width = 6,
+                         plotOutput("VacMun"), # Figura de serie de tiempo
+                     ),
+                     box(title = 'Vacunacion boxplot', width = 6,
+                         plotOutput("VacBoxplot"), # Figura de serie de tiempo
+                     )
+              )
+            )
+    ),
+    
+    tabItem(tabName = 'T2',
+            fluidRow(
+              column(width = 12,
+                     box(title = 'Vigilancia', width = 6,
+                         plotOutput("VigMun"),
+                     )
+              )
+            )
+    ),
+    tabItem(tabName = 'T3',
+            fluidRow(
+              column(width = 12,
+                     box(title = 'Captura', width = 6,
+                         plotOutput("CapMun"),
+                     )
+              )
+            )
+    )
+  )
+)
+
+# Integrar los componentes de la interfaz
+ui <- dashboardPage(header = header, sidebar = sidebar, body = body)
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
@@ -65,8 +104,8 @@ server <- function(input, output) {
   
   y <- reactive({
     p <- vigilancia %>% # base de datos
-      filter(NOM_MUN %in% input$Mun) %>%
-      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
   })
   
   output$VigMun <- renderPlot({
@@ -82,8 +121,8 @@ server <- function(input, output) {
   
   z <- reactive({
     p <- captura %>% # base de datos
-      filter(NOM_MUN %in% input$Mun) %>%
-      filter(YEAR %in% c("2007", "2008", "2009", "2010", "2011", "2012"))# filtramos los datos
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
   })
   
   output$CapMun <- renderPlot({

@@ -13,7 +13,7 @@
 
 <title>Visualización interactiva de bases de datos complejas mediante la plataforma Shiny</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -64,6 +64,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -84,6 +85,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -236,7 +240,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -249,7 +253,7 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Pre Workshop
      
     <span class="caret"></span>
@@ -267,7 +271,7 @@ $(document).ready(function () {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Contact
      
     <span class="caret"></span>
@@ -402,15 +406,13 @@ $(document).ready(function () {
 <li><a href="Lab_IIa.html">Lab IIa: Shinydashboard</a></li>
 <li><a href="IIb_Reactividad.html">Reactividad</a></li>
 <li><a href="Lab_IIb.html">Lab IIb: Reactividad</a></li>
-</ul>
-<!-- - Configurar la interfaz del usuario (45 minutos) -->
-<!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->
-<!-- - Reactividad basica (30 minutos) -->
-<!-- - Ejercicio 4: Reactividad -->
-<!-- - Botones de acción -->
-<!-- - Cajas de mensajes -->
-<!-- - Checkpoint -  --></li>
-<li><p><strong>Dia 3 (17 de Marzo 2022):</strong> Gráficos avanzados y publicación de shiny app <!-- - Recapitulación (15 minutos) --> <!-- - Graficos avanzados DT, plotly y visNetwork, mapbox (30 minutos) --> <!-- - Ejercicio 5: Agregar graficos y mapas interactivos (45 minutos) --> <!-- - Publicación en github y servidores de google drive (30 minutos) --> <!-- - Ejercicio 6: Publicar el shiny app y conectar con google drive (45 minutos)  --> <!-- - Checkpoint -  --> <!-- - Tarea boceto - --></p></li>
+</ul></li>
+<li><p><strong>Dia 3 (17 de Marzo 2022):</strong> Gráficos avanzados y publicación de shiny app<br />
+- Recapitulacion del dia anterior (<a href="Lab_IIb.html">LabIIb</a>).<br />
+- Graficos avanzados con DT, plotly y visNetwork.<br />
+- <a href="Lab_IIIa.html">Lab IIIa: Graficos avanzados</a>.<br />
+- Publicando tu shinyapp.<br />
+- Introduccion al proyecto.</p></li>
 <li><p><strong>Dia 4 (18 de Marzo 2022):</strong> Sesión de trabajo para proyectos (opcional) <!-- - Presenten su borrador de aplicación --></p></li>
 <li><p><strong>Dìa 5 (21 de Marzo 2022):</strong> Presentación de trabajos</p></li>
 </ul>

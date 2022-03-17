@@ -103,23 +103,13 @@ Todas las sesiones seran de 3 a 6 pm
      - [Lab IIa: Shinydashboard](Lab_IIa.html)
      - [Reactividad](IIb_Reactividad.html)
      - [Lab IIb: Reactividad](Lab_IIb.html)
-     
-     <!-- - Configurar la interfaz del usuario (45 minutos) -->
-     <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->
-     <!-- - Reactividad basica (30 minutos) -->
-     <!-- - Ejercicio 4: Reactividad -->
-     <!-- - Botones de acción -->
-     <!-- - Cajas de mensajes -->
-     <!-- - Checkpoint -  -->
-
-   - **Dia 3 (17 de Marzo 2022):** Gráficos avanzados y publicación de shiny app
-     <!-- - Recapitulación (15 minutos) -->
-     <!-- - Graficos avanzados DT, plotly y visNetwork, mapbox (30 minutos) -->
-     <!-- - Ejercicio 5: Agregar graficos y mapas interactivos (45 minutos) -->
-     <!-- - Publicación en github y servidores de google drive (30 minutos) -->
-     <!-- - Ejercicio 6: Publicar el shiny app y conectar con google drive (45 minutos)  -->
-     <!-- - Checkpoint -  -->
-     <!-- - Tarea boceto - -->
+  
+   - **Dia 3 (17 de Marzo 2022):** Gráficos avanzados y publicación de shiny app    
+    - Recapitulacion del dia anterior ([LabIIb](Lab_IIb.html)).  
+    - Graficos avanzados con DT, plotly y visNetwork.  
+    - [Lab IIIa: Graficos avanzados](Lab_IIIa.html).  
+    - Publicando tu shinyapp.  
+    - Introduccion al proyecto.    
 
    - **Dia 4 (18 de Marzo 2022):** Sesión de trabajo para proyectos (opcional)
      <!-- - Presenten su borrador de aplicación -->
