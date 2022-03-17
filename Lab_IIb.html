@@ -389,8 +389,163 @@ div.tocify {
 
 <div id="introduccion" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduccion</h1>
-<p>Objetivo: En este laboratorio vamos a introducir reactividad avanzada</p>
+<p>Objetivo: En este laboratorio vamos a introducir reactividad avanzada. Vamos a trabajar con mensajes y botones para hacer mas eficiente nuestra aplicacion.</p>
 <hr />
+<p>Vamos a continuar trabajando en la aplicacion que hemos creado, ahora vamos a enfocarnos en como mejorar la interaccion con el usuario y comunicar los procesos a nuestro servidor de manera mas eficiente.</p>
+<p>Primero nos aseguramos de tener las librerias cargadas. En este laboratorio introduciremos dos nuevas librerias. La primera es la libreria <code>sf</code>, para manipular objetos espaciales. Y la segunda es <code>plotly</code>, para hacer graficos interactivos.</p>
+<pre class="r"><code># Cargar las librerias
+library(shiny)
+library(dplyr) # Para manipulacion de datos
+library(ggplot2) # Para las figuras
+library(shinydashboard) # para crear un dashboard
+library(STNet) # libreria para bases de datos
+library(sf) # libreria para objetos espaciales
+library(plotly) # libreria para graficos interactivos</code></pre>
+</div>
+<div id="mapas" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Mapas</h1>
+<p>Vamos a usar los mismos datos de STNet que hemos estado usando. Vamos a introducir una nueva base de datos que tiene los objetos espaciales. Esta nueva base de datos contiene todos los municipios de Mexico. En este laboratorio vamos a filtrar para obtener un objeto espacial del area de estudio.</p>
+<pre class="r"><code># asegurate de tener la version mas reciente de la libreria STNet para cargar las nuevas bases de datos
+# Cargar los datos del paquete STNet
+data(&quot;vac&quot;) # Datos de vacunacion
+data(&quot;vigilancia&quot;) # datos de vigilancia
+data(&quot;captura&quot;) # Datos de captura
+
+# Loading the spatial data from the package
+MxShp &lt;- st_read(system.file(&quot;data/MxShp.shp&quot;, package = &quot;STNet&quot;)) %&gt;% 
+  filter(CVE_ENT %in% c(&#39;15&#39;, &#39;12&#39;, &#39;16&#39;)) # filtramos la base de datos para solo usar los estados 15, 12 y 16</code></pre>
+<pre><code>## Reading layer `MxShp&#39; from data source 
+##   `/Library/Frameworks/R.framework/Versions/4.0/Resources/library/STNet/data/MxShp.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 2471 features and 6 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 1058748 ymin: 319149.1 xmax: 4082958 ymax: 2349605
+## Projected CRS: MEXICO_ITRF_2008_LCC</code></pre>
+<p>Ahora vamos a proyectar nuestras ubicaciones de las capturas.<br />
+Primero transformamos nuestra tabla de capturas a un obeto espacial con la funcion <code>st_as_sf()</code>. En esta funcion hay que especificar el sistema de coordenadas inicial y los nombres de las columnas que tengan los atributos de latitud y longitud (o X y Y).<br />
+Despues usamos la funcion <code>st_transform()</code> para proyectar nuestros datos en la misma proyeccion de la base de datos de los municipios.</p>
+<pre class="r"><code># proyectar nuestros puntos
+capturaSp &lt;- captura %&gt;% 
+  st_as_sf(crs = st_crs(4326), coords = c(&#39;LONG&#39;, &#39;LATITUD&#39;)) %&gt;% 
+  st_transform(crs = st_crs(MxShp))</code></pre>
+<div id="haciendo-la-figura" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Haciendo la figura</h2>
+<p>Vamos a planear nuestra figura ahora. La base de datos de capturas tiene el numero de animales capturados y las localizaciones por año, vamos a hacer un grafico que nos muestre los municipios, y un punto con el numero de capturas por año.</p>
+<pre class="r"><code>p &lt;- ggplot() + # llamamos a la libreria ggplot
+      geom_sf(data = MxShp, fill = &#39;grey60&#39;, col = &#39;grey20&#39;) + # ponemos nuestro mapa base
+      geom_sf(data = capturaSp, aes(size = CAPTURADOS), alpha = 0.5, col = &#39;red4&#39;) + # agregamos nuestros puntos
+      theme_void() # seleccionamos un tema sin axis ni grids
+
+p</code></pre>
+<p><img src="Lab_IIb_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="incorporandola-a-la-aplicacion." class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Incorporandola a la aplicacion.</h2>
+<div id="nuevo-output-en-la-ui" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Nuevo output en la ui</h3>
+<p>Una vez que tenemos nuestro mapa podemos incorporarlo a la aplicacion. Vamos a crear una nueva caja en la pestaña para los datos de captura (tab ‘T3’):</p>
+<pre class="r"><code>tabItem(tabName = &#39;T3&#39;,
+        fluidRow(
+          column(width = 12,
+                 # ... , # aqui va nuestro codigo para la figura anterior
+                 box(title = &#39;Localizaciones de capturas&#39;, width = 6,
+                     plotOutput(&#39;CapturaMap&#39;)
+                     )
+                 )
+          )
+        )</code></pre>
+</div>
+<div id="modificar-evento-reactivo" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Modificar evento reactivo</h3>
+<p>Podemos usar el mismo evento reactivo que teniamos anteriormente para la figura del grafico de barras haciendo unas modificaciones al codigo. Anteriormente llamabamos al objeto <code>capturas</code> para hacer el filtrado de los datos en el evento reactivo <code>z()</code>, pero ahora podemos cambiar ese objeto por nuestros datos espaciales proyectados <code>capturasSp</code> y lo podemos usar para el grafico de barras y el mapa.</p>
+<p>Nuestro objeto reactivo quedaria asi:</p>
+<pre class="r"><code>z &lt;- eventReactive(input$filter, {
+    p &lt;- capturaSp %&gt;% # base de datos espaciales proyectada
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
+  })</code></pre>
+</div>
+<div id="incorporar-figura-en-el-servidor" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Incorporar figura en el servidor</h3>
+<p>Ahora vamos a crear la figura para el output ‘CapturaMap’</p>
+<pre class="r"><code>output$CapturaMap &lt;- renderPlot({
+    ggplot() +
+      geom_sf(data = MxShp, fill = &#39;grey60&#39;, col = &#39;grey20&#39;) +
+      geom_sf(data = z(), aes(size = CAPTURADOS), alpha = 0.5, col = &#39;red4&#39;) +
+      theme_void()
+  })</code></pre>
+<p>Podemos correr la aplicacion para ver los cambios.</p>
+</div>
+</div>
+</div>
+<div id="botones-de-accion" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Botones de accion</h1>
+<p>Ahora que tenemos una aplicacion un poco mas pesada, es un buen momento para introducir los botones de accion. Los botones de accion nos ayudan a controlar los procesos que nuestra aplicacion va a correr para hacer mas efficiente la interaccion y usar menos recursos computacionales.</p>
+<p>Los botones de accion son basicamente inputs, y los creamos con la funcion <code>actionButton()</code>, vamos a introducir este nuevo input en nuestro menu donde tenemos los demas inputs. En mi caso, yo los tengo en la barra lateral de mi aplicacion.</p>
+<pre class="r"><code>sidebar &lt;- dashboardSidebar(
+  sidebarMenu(
+    # ..., Otros elementos de mi sidebar
+    actionButton(inputId = &#39;filter&#39;, label = &#39;Filtrar datos&#39;)
+    )
+  )</code></pre>
+<p>EL botond de accion nos da un mensaje de <code>False</code> si no esta presionado, y <code>True</code> cuando lo presionamos. Podemos usar esto para indicar a nuestra aplicacion cuando correr los procesos de nuestros objetos reactivos. Para esto usamos la funcion <code>eventReactive()</code>. Esta funcion va a remplazar a la funcion <code>reactive()</code> que usamos anteriormente para crear los objetos reactivos.<br />
+La funcion <code>eventReactive()</code> requiere un argumento que le indique cuando se debe ejecutar el codigo, para esto vamos a usar nuestro input dell boton de accion.</p>
+<pre class="r"><code>x &lt;- eventReactive(input$filter, {
+    p &lt;- vac %&gt;% # base de datos
+      filter(NOM_MUN %in% input$Mun,
+             between(YEAR, input$year[1], right = input$year[2])) # filtramos los datos
+  })</code></pre>
+<div id="mensajes-de-advertencia" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Mensajes de advertencia</h2>
+<p>Otro recurso que podemos usar para mejorar la interactividad con el usuario son los mensajes de advertencia. Para esto podemos usar la funcion <code>observeEvent()</code>. Esta funcion es ractiva a differentes elementos de nuestra aplicacion y la podemos usar para mostrarnos diferentes mensajes. En este ejemplo la usaremos para indicarnos cuando se termine el proceso de filtrar los datos.</p>
+<pre class="r"><code>observeEvent(x(), {
+    showModal(
+      modalDialog(&quot;Plots Updated&quot;, # mensaje que queremos mostrar
+                  easyClose = T) # opcion para cerrar haciendo click en cualquier lado fuera de la caja
+      )
+  })</code></pre>
+</div>
+</div>
+<div id="introduccion-a-graficos-interactivos." class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Introduccion a graficos interactivos.</h1>
+<p>En esta ultima parte del laboratorio introduciremos graficos interactivos con la libreria <code>plotly</code>.<br />
+Esta libreria tiene su propia syntaxis para hacer graficos, pero tambien incluye una funcion muy conveniente para convertir cualquier grafico de ggplot a un grafico interactivo.<br />
+En nuestro mapa que creamos anteriormente, los puntos se ven muy amontonados y puede ser dificil de ver las ubicaciones, vamos a transformarlo en un mapa interactivo que nos permita ampliar la imagen y navegar el area.</p>
+<pre class="r"><code>ggplotly(p) # funcion para convertir graficos de ggplot a plotly</code></pre>
+<p><img src="img/IIb_plotly.png" style="width:60%" align="center"></p>
+<p>Al transformar nuestro grafico se habilita una barra de menu en la parte superior, esta barra tiene diferentes herramientas como zoom, pan o auto escala. Podemos integrar nuestro nuevo grafico en la aplicacion modificando un poco nuestro codigo, recuerda que para crear tus outputs tienes que especificar el tipo de output y el render, lo cual haremos a continuacion:</p>
+<div id="modificando-tipo-de-output" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Modificando tipo de output</h2>
+<p>Anteriromente usamos la funcion <code>plotOutput()</code> para indicar que nuestro output es una figura, ahora cambiaremos esta funcion por <code>plotlyOutput()</code> para indicar que es una figura interactiva de plotly.</p>
+<pre class="r"><code>tabItem(tabName = &#39;T3&#39;,
+        fluidRow(
+          column(width = 12,
+                 # ... , # aqui va nuestro codigo para la figura anterior
+                 box(title = &#39;Localizaciones de capturas&#39;, width = 6,
+                     plotlyOutput(&#39;CapturaMap&#39;)
+                     )
+                 )
+          )
+        )</code></pre>
+</div>
+<div id="modificando-el-render" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Modificando el render</h2>
+<p>Vamos a cambiar la funcion <code>renderPlot()</code> que usamos anteriormente por la funcion <code>renderPlotly()</code> para indicar que tenemos un nuevo tipo de output.<br />
+Para usar la funcion <code>ggplotly()</code>, vamos tambien a modificar nuestro codigo guardando la figura en un objeto primero, y luego usando la funcion con nuestro nuevo objeto como argumento.</p>
+<pre class="r"><code>output$CapturaMap &lt;- renderPlotly({
+    p &lt;- ggplot() +
+      geom_sf(data = MxShp, fill = &#39;grey60&#39;, col = &#39;grey20&#39;) +
+      geom_sf(data = z(), aes(size = CAPTURADOS), alpha = 0.5, col = &#39;red4&#39;) +
+      theme_void()
+    
+    ggplotly(p)
+  })</code></pre>
+</div>
+</div>
+<div id="ejercicio." class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Ejercicio.</h1>
+<p>Intenta usar la funcion <code>ggplotyl()</code> para cambiar los graficos que ya habias creado y verlos en su version interactiva.</p>
 </div>
 
 

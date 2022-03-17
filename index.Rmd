@@ -100,9 +100,9 @@ Todas las sesiones seran de 3 a 6 pm
    - **Dia 2 (16 de Marzo 2022):** Configuración de tu entorno de desarrollo
      - Recapitulación
      - [Introduccion a shiny dashboard](IIa_ShinyDash.html)
-     - [Lab IIa](Lab_IIa.html)
+     - [Lab IIa: Shinydashboard](Lab_IIa.html)
      - [Reactividad](IIb_Reactividad.html)
-     - Lab IIb
+     - [Lab IIb: Reactividad](Lab_IIb.html)
      
      <!-- - Configurar la interfaz del usuario (45 minutos) -->
      <!-- - Ejercicio 3: Introduccion a shiny dashboard (45 minutos) -->

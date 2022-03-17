@@ -21,7 +21,7 @@ En este laboratorio vamos a introducir shinydashboard. Seguiremos construyendo e
 
 ------------------------------
 
-Primero vamos a segurarnos de que tengamos las librerias que usaremos hoy cargadas, si estas empezando a partir del laboratorio anterior, solo agregaremos el paquete `shinydashboard` a la lista
+Primero vamos a asegurarnos de que tengamos las librerias que usaremos hoy cargadas, si estas empezando a partir del laboratorio anterior, solo agregaremos el paquete `shinydashboard` a la lista
 
 ```{r cargar librerias}
 # Cargar las librerias
